@@ -25,7 +25,9 @@ public class SecurityConfiguration {
                         // All static resources which are situated in js/css/images are available for anyone
                         .requestMatchers(PathRequest.toStaticResources().atCommonLocations()).permitAll()
                         // Allow anyone to see home page, register page, login page
-                        .requestMatchers("/", "/users/login", "/users/register", "/about", "/users/login-error").permitAll()
+                        .requestMatchers("/", "/users/login", "/users/register",
+                                "/about", "/users/login-error", "/contact", "/profile/**", "/search"
+                        , "/profile/*/gallery").permitAll()
                         //all other requests are authenticated
                         .anyRequest().authenticated())
                 .formLogin(
@@ -37,7 +39,7 @@ public class SecurityConfiguration {
                                     // the names of input fields (in our case auth-login.hmtl)
                                     .usernameParameter("email")
                                     .passwordParameter("password")
-                                    .defaultSuccessUrl("/home")
+                                    .defaultSuccessUrl("/home", true)
                                     .failureForwardUrl("/users/login-error");
                         }
                 ).logout(

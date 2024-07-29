@@ -18,7 +18,7 @@ public class UserEntity {
     private String email;
 
     @Column(nullable = false)
-    private String fistName;
+    private String firstName;
 
     @Column(nullable = false)
     private String lastName;
@@ -52,12 +52,12 @@ public class UserEntity {
         return this;
     }
 
-    public String getFistName() {
-        return fistName;
+    public String getFirstName() {
+        return firstName;
     }
 
-    public UserEntity setFistName(String fistName) {
-        this.fistName = fistName;
+    public UserEntity setFirstName(String firstName) {
+        this.firstName = firstName;
         return this;
     }
 
@@ -88,10 +88,12 @@ public class UserEntity {
     }
 
 
-
-
     public UserEntity addRole(UserRoleEntity role){
         this.roles.add(role);
         return this;
+    }
+
+    public String fullName(){
+        return firstName + " " + lastName;
     }
 }

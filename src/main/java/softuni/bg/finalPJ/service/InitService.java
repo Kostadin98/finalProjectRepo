@@ -55,7 +55,7 @@ public class InitService {
     private void initAdmin() {
         UserEntity admin = new UserEntity();
         admin.setEmail("admin@example");
-        admin.setFistName("Admin");
+        admin.setFirstName("Admin");
         admin.setLastName("Adminov");
         admin.setPassword(passwordEncoder.encode("adminPassword"));
         admin.setRoles(userRoleRepository.findAll());
@@ -70,7 +70,7 @@ public class InitService {
 
         UserEntity normalUser = new UserEntity();
         normalUser.setEmail("normalUser@example");
-        normalUser.setFistName("User");
+        normalUser.setFirstName("User");
         normalUser.setLastName("Userov");
         normalUser.setPassword(passwordEncoder.encode("normalUserPassword"));
         normalUser.setRoles(List.of(normalUserRole));

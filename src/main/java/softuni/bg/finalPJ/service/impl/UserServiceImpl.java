@@ -1,5 +1,6 @@
 package softuni.bg.finalPJ.service.impl;
 
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 import softuni.bg.finalPJ.models.DTOs.UserRegistrationDTO;
@@ -10,6 +11,8 @@ import softuni.bg.finalPJ.repositories.UserRepository;
 import softuni.bg.finalPJ.repositories.UserRoleRepository;
 import softuni.bg.finalPJ.service.UserService;
 
+import java.util.List;
+
 @Service
 public class UserServiceImpl implements UserService {
 
@@ -17,6 +20,7 @@ public class UserServiceImpl implements UserService {
     private final UserRoleRepository userRoleRepository;
     private final PasswordEncoder passwordEncoder;
 
+    @Autowired
     public UserServiceImpl(UserRepository userRepository, UserRoleRepository userRoleRepository, PasswordEncoder passwordEncoder) {
         this.userRepository = userRepository;
         this.userRoleRepository = userRoleRepository;
@@ -29,7 +33,7 @@ public class UserServiceImpl implements UserService {
         boolean userAlreadyExists = userRepository.findUserEntityByEmail(userRegistrationDTO.getEmail()).isPresent();
         boolean passwordMatches = userRegistrationDTO.getPassword().equals(userRegistrationDTO.getConfirmPassword());
 
-        if (userAlreadyExists || !passwordMatches){
+        if (userAlreadyExists || !passwordMatches) {
             return false;
         }
 
@@ -37,12 +41,18 @@ public class UserServiceImpl implements UserService {
 
         UserEntity userToSave = new UserEntity();
         userToSave.setEmail(userRegistrationDTO.getEmail());
-        userToSave.setFistName(userRegistrationDTO.getFirstName());
+        userToSave.setFirstName(userRegistrationDTO.getFirstName());
         userToSave.setLastName(userRegistrationDTO.getLastName());
         userToSave.setPassword(passwordEncoder.encode(userRegistrationDTO.getPassword()));
         userToSave.addRole(roleToSet);
 
         userRepository.save(userToSave);
         return true;
+    }
+
+    public List<UserEntity> searchUsers(String query) {
+        // Split the query into possible first name and last name
+        return userRepository.findByFirstNameContainingIgnoreCaseOrLastNameContainingIgnoreCaseOrEmailContainingIgnoreCase(
+                query, query, query);
     }
 }

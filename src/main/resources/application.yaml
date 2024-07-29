@@ -20,7 +20,7 @@ spring:
       filter:
         enabled: true
 
-finalPJ:
+
   default.admin.pass: 'topsecret'
   remember.me.key: 'topsecret'
 
@@ -34,6 +34,5 @@ logging:
 google.recaptcha:
   site: ${RECAPTCHA_SITE_KEY}
   secret: ${RECAPTCHA_SITE_SECRET}
-
 
 
