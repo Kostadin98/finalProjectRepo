@@ -1,0 +1,93 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+
+<div>
+    <nav th:replace="~{fragments/navigation}"></nav>
+</div>
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Home Page</title>
+    <!-- Bootstrap CSS -->
+    <link href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css" rel="stylesheet">
+    <!-- Custom CSS -->
+    <style>
+        body {
+            font-family: 'Arial', sans-serif;
+            background-color: #f8f9fa;
+            color: #333;
+        }
+
+        .jumbotron {
+            background: url('https://source.unsplash.com/1600x900/?nature,water') no-repeat center center;
+            background-size: cover;
+            color: white;
+            text-shadow: 2px 2px 4px #000;
+            padding-top: 6rem;
+            padding-bottom: 6rem;
+        }
+
+        .jumbotron h1 {
+            font-size: 4rem;
+            font-weight: 700;
+        }
+
+        .jumbotron p.lead {
+            font-size: 1.5rem;
+        }
+
+        .btn-primary {
+            background-color: #0056b3;
+            border-color: #004085;
+        }
+
+        .container .row {
+            margin-top: 2rem;
+        }
+
+    </style>
+</head>
+<body>
+
+<!-- Jumbotron -->
+<div class="jumbotron text-center">
+    <h1 class="display-4">Welcome to My Web App</h1>
+    <p class="lead">This is a simple web application built with Java Spring MVC and Bootstrap.</p>
+    <hr class="my-4">
+    <p>Learn more about what this app can do for you.</p>
+    <a class="btn btn-primary btn-lg" href="#" role="button">Learn more</a>
+</div>
+
+<!-- Content Section -->
+<div class="container">
+    <div class="row">
+        <div class="col-md-4">
+            <h2>Feature 1</h2>
+            <p>Details about feature 1.</p>
+            <a class="btn btn-secondary" href="#" role="button">View details »</a>
+        </div>
+        <div class="col-md-4">
+            <h2>Feature 2</h2>
+            <p>Details about feature 2.</p>
+            <a class="btn btn-secondary" href="#" role="button">View details »</a>
+        </div>
+        <div class="col-md-4">
+            <h2>Feature 3</h2>
+            <p>Details about feature 3.</p>
+            <a class="btn btn-secondary" href="#" role="button">View details »</a>
+        </div>
+    </div>
+</div>
+
+<!-- Bootstrap JS and dependencies -->
+<script src="https://code.jquery.com/jquery-3.5.1.slim.min.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.5.3/dist/umd/popper.min.js"></script>
+<script src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
+
+<div>
+    <nav th:replace="~{fragments/footer}"></nav>
+</div>
+
+</body>
+</html>

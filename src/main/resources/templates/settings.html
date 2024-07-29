@@ -1,0 +1,68 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org"
+      xmlns:sec="http://www.thymeleaf.org/extras/spring-security">
+<head>
+    <meta charset="UTF-8">
+    <title>Settings Page</title>
+    <!-- Bootstrap CSS -->
+    <link href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css" rel="stylesheet">
+    <!-- Font Awesome CSS -->
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.3/css/all.min.css" rel="stylesheet">
+    <style>
+        body {
+            background-color: #f8f9fa;
+            font-family: Arial, sans-serif;
+        }
+        .settings-container {
+            margin-top: 50px;
+        }
+        .settings-card {
+            padding: 40px;
+            border-radius: 15px;
+            background-color: #ffffff;
+            box-shadow: 0 4px 20px rgba(0, 0, 0, 0.1);
+            max-width: 800px;
+            margin: auto;
+        }
+    </style>
+</head>
+<body>
+<div class="container settings-container">
+    <div class="row justify-content-center">
+        <div class="col-md-12">
+            <div class="card settings-card">
+                <h2 class="text-center">Settings</h2>
+                <form th:action="@{/settings}" th:object="${user}" method="post" enctype="multipart/form-data">
+                    <div class="form-group">
+                        <label for="firstName">First Name</label>
+                        <input type="text" class="form-control" id="firstName" th:field="*{firstName}" required>
+                    </div>
+                    <div class="form-group">
+                        <label for="lastName">Last Name</label>
+                        <input type="text" class="form-control" id="lastName" th:field="*{lastName}" required>
+                    </div>
+                    <div class="form-group">
+                        <label for="email">Email</label>
+                        <input type="email" class="form-control" id="email" th:field="*{email}" required>
+                    </div>
+                    <div class="form-group">
+                        <label for="password">New Password</label>
+                        <input type="password" class="form-control" id="password" th:field="*{password}">
+                    </div>
+                    <div class="form-group">
+                        <label for="profilePicture">Profile Picture</label>
+                        <input type="file" class="form-control" id="profilePicture" name="profilePicture">
+                    </div>
+                    <button type="submit" class="btn btn-primary">Save changes</button>
+                </form>
+            </div>
+        </div>
+    </div>
+</div>
+
+<!-- Bootstrap JS and dependencies -->
+<script src="https://code.jquery.com/jquery-3.5.1.slim.min.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.5.2/dist/umd/popper.min.js"></script>
+<script src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
+</body>
+</html>

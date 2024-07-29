@@ -1,0 +1,74 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <title>Gallery Page</title>
+    <!-- Bootstrap CSS -->
+    <link href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css" rel="stylesheet">
+    <!-- Custom CSS -->
+    <style>
+        body {
+            background-color: #f8f9fa;
+            font-family: Arial, sans-serif;
+        }
+        .gallery-container {
+            margin-top: 50px;
+        }
+        .gallery-card {
+            padding: 30px;
+            border-radius: 10px;
+            background-color: #ffffff;
+            box-shadow: 0 4px 20px rgba(0, 0, 0, 0.1);
+        }
+        .gallery-images {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 15px;
+        }
+        .gallery-images img {
+            width: calc(33.333% - 15px);
+            height: auto;
+            border-radius: 10px;
+            transition: transform 0.3s ease, box-shadow 0.3s ease;
+            cursor: pointer;
+        }
+        .gallery-images img:hover {
+            transform: scale(1.05);
+            box-shadow: 0 6px 15px rgba(0, 0, 0, 0.2);
+        }
+        @media (max-width: 768px) {
+            .gallery-images img {
+                width: calc(50% - 15px);
+            }
+        }
+        @media (max-width: 576px) {
+            .gallery-images img {
+                width: 100%;
+            }
+        }
+    </style>
+</head>
+<body>
+<div class="container gallery-container">
+    <div class="row justify-content-center">
+        <div class="col-md-10">
+            <div class="card gallery-card">
+                <h3 class="card-title text-center mb-4">Gallery</h3>
+                <div class="gallery-images">
+                    <img src="https://via.placeholder.com/800x400" alt="Gallery Image 1">
+                    <img src="https://via.placeholder.com/800x400" alt="Gallery Image 2">
+                    <img src="https://via.placeholder.com/800x400" alt="Gallery Image 3">
+                    <img src="https://via.placeholder.com/800x400" alt="Gallery Image 4">
+                    <img src="https://via.placeholder.com/800x400" alt="Gallery Image 5">
+                    <img src="https://via.placeholder.com/800x400" alt="Gallery Image 6">
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+<!-- Bootstrap JS and dependencies -->
+<script src="https://code.jquery.com/jquery-3.5.1.slim.min.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.5.2/dist/umd/popper.min.js"></script>
+<script src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
+</body>
+</html>

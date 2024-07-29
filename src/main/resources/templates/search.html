@@ -1,0 +1,48 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+
+<div>
+    <nav th:replace="~{fragments/navigation}"></nav>
+</div>
+
+<head>
+    <meta charset="UTF-8">
+    <title>User List</title>
+    <!-- Bootstrap CSS -->
+    <link href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css" rel="stylesheet">
+</head>
+<body>
+<div class="container mt-5">
+    <h2>User List</h2>
+
+    <form class="form-inline mb-3" th:method="GET" th:action="@{/search}">
+        <input class="form-control mr-sm-2" type="search" name="query" placeholder="Search by name or email" aria-label="Search"
+               th:value="${query}">
+        <button class="btn btn-outline-success my-2 my-sm-0" type="submit">Search</button>
+    </form>
+
+    <table class="table table-bordered">
+        <thead>
+        <tr>
+            <th>ID</th>
+            <th>Full Name</th>
+            <th>Email</th>
+            <th>Profile</th>
+        </tr>
+        </thead>
+        <tbody>
+        <tr th:each="user : ${users}">
+            <td th:text="${user.id}">1</td>
+            <td th:text="${user.firstName + ' ' + user.lastName}">John Doe</td>
+            <td th:text="${user.email}">john.doe@example.com</td>
+            <td><a th:href="@{/profile/{id}(id=${user.id})}" class="btn btn-primary">View Profile</a></td>
+        </tr>
+        </tbody>
+    </table>
+</div>
+<!-- Bootstrap JS and dependencies -->
+<script src="https://code.jquery.com/jquery-3.5.1.slim.min.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.5.2/dist/umd/popper.min.js"></script>
+<script src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
+</body>
+</html>

@@ -1,0 +1,72 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+
+<div>
+    <nav th:replace="~{fragments/navigation}"></nav>
+</div>
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>About Us</title>
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css">
+    <style>
+        .team-member {
+            margin-bottom: 30px;
+        }
+        .team-member img {
+            border-radius: 50%;
+            margin-bottom: 15px;
+        }
+        .about-section {
+            padding: 60px 0;
+        }
+        .about-section h2 {
+            margin-bottom: 30px;
+        }
+    </style>
+</head>
+<body
+<!-- About Section -->
+<section class="about-section text-center">
+    <div class="container">
+        <h2 class="text-uppercase">About Us</h2>
+        <p class="lead">We are a passionate team dedicated to providing the best service and solutions to our customers.</p>
+        <div class="row">
+            <div class="col-lg-4 col-sm-6 team-member">
+                <img src="https://via.placeholder.com/150" class="img-fluid" alt="Team Member 1">
+                <h5>John Doe</h5>
+                <p class="text-muted">CEO & Founder</p>
+            </div>
+            <div class="col-lg-4 col-sm-6 team-member">
+                <img src="https://via.placeholder.com/150" class="img-fluid" alt="Team Member 2">
+                <h5>Jane Smith</h5>
+                <p class="text-muted">Chief Technology Officer</p>
+            </div>
+            <div class="col-lg-4 col-sm-6 team-member">
+                <img src="https://via.placeholder.com/150" class="img-fluid" alt="Team Member 3">
+                <h5>Mike Johnson</h5>
+                <p class="text-muted">Head of Marketing</p>
+            </div>
+        </div>
+    </div>
+</section>
+
+<!-- Footer -->
+<footer class="text-center py-4">
+    <div class="container">
+        <p class="mb-0">&copy; 2024 YourCompany. All Rights Reserved.</p>
+    </div>
+</footer>
+
+<!-- Scripts -->
+<script src="https://code.jquery.com/jquery-3.5.1.slim.min.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.5.4/dist/umd/popper.min.js"></script>
+<script src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
+
+<div>
+    <nav th:replace="~{fragments/navigation}"></nav>
+</div>
+
+</body>
+</html>

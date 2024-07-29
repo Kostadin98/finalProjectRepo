@@ -1,0 +1,94 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+
+<div>
+    <nav th:replace="~{fragments/navigation}"></nav>
+</div>
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Register</title>
+    <link href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css" rel="stylesheet">
+    <style>
+        body {
+            background-color: #f8f9fa;
+        }
+        .card {
+            margin-top: 50px;
+        }
+        .card-header {
+            background-color: #007bff;
+            color: #fff;
+        }
+        .btn-primary {
+            background-color: #007bff;
+            border-color: #007bff;
+        }
+    </style>
+</head>
+<body>
+<div class="container">
+    <div class="row justify-content-center">
+        <div class="col-md-6">
+            <div class="card">
+                <div class="card-header text-center">
+                    <h2>Register</h2>
+                </div>
+                <div class="card-body">
+
+                    <form th:action="@{/users/register}"
+                          th:method="POST"
+                          th:object="${userRegistrationDTO}">
+
+                        <div class="form-group">
+                            <label for="firstName">First Name</label>
+                            <input type="text" class="form-control" id="firstName" name="firstName"
+                                   th:field ="*{firstName}">
+                            <small th:if="${#fields.hasErrors('firstName')}"
+                                   th:errors="*{firstName}" class="text-danger" style="font-size: 15px">First name error message</small>
+                        </div>
+<!--                        <small th:if="${#fields.hasErrors('firstName')}"-->
+<!--                               th:errors="*{firstName}" class="danger" style="font-size: 15px">Username error message</small>-->
+
+                        <div class="form-group">
+                            <label for="lastName">Last Name</label>
+                            <input type="text" class="form-control" id="lastName" name="lastName"
+                                   th:field ="*{lastName}">
+                            <small th:if="${#fields.hasErrors('lastName')}"
+                                   th:errors="*{lastName}" class="text-danger" style="font-size: 15px">Last name error message</small>
+                        </div>
+                        <div class="form-group">
+                            <label for="email">Email address</label>
+                            <input type="email" class="form-control" id="email" name="email"
+                                   th:field ="*{email}">
+                            <small th:if="${#fields.hasErrors('email')}"
+                                   th:errors="*{email}" class="text-danger" style="font-size: 15px">Email error message</small>
+                        </div>
+                        <div class="form-group">
+                            <label for="password">Password</label>
+                            <input type="password" class="form-control" id="password" name="password"
+                                   th:field ="*{password}">
+                            <small th:if="${#fields.hasErrors('password')}"
+                                   th:errors="*{password}" class="text-danger" style="font-size: 15px">Password error message</small>
+                        </div>
+                        <div class="form-group">
+                            <label for="confirmPassword">Confirm Password</label>
+                            <input type="password" class="form-control" id="confirmPassword" name="confirmPassword"
+                                   th:field ="*{confirmPassword}">
+                            <small th:classappend="${#fields.hasErrors('password')}"
+                                   th:errors="*{confirmPassword}"
+                                   class="text-danger" style="font-size: 15px">Confirm password error message</small>
+                        </div>
+                        <button type="submit" class="btn btn-primary btn-block">Register</button>
+                    </form>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+<script src="https://code.jquery.com/jquery-3.5.1.slim.min.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.5.3/dist/umd/popper.min.js"></script>
+<script src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
+</body>
+</html>

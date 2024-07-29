@@ -1,0 +1,91 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+
+<div>
+    <nav th:replace="~{fragments/navigation}"></nav>
+</div>
+
+<head>
+    <title>Login</title>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <!-- Bootstrap CSS -->
+    <link href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css" rel="stylesheet">
+    <!-- Custom CSS -->
+    <style>
+        body {
+    background-color: #f8f9fa;
+}
+
+.login-container {
+    max-width: 400px;
+    margin: 2rem auto; /* Center the container with margin */
+    padding: 2rem; /* Add padding inside the container */
+    background-color: #ffffff;
+    border-radius: 0.5rem;
+    box-shadow: 0 0.125rem 0.25rem rgba(0, 0, 0, 0.075);
+}
+
+.login-container h2 {
+    text-align: center;
+    margin-bottom: 1.5rem;
+}
+
+.login-container .form-control {
+    border-radius: 0.25rem;
+}
+
+.login-container .btn-primary {
+    background-color: #007bff;
+    border-color: #007bff;
+    border-radius: 0.25rem;
+}
+    </style>
+
+</head>
+<body>
+<div class="login-container mt-5">
+    <h2>Login</h2>
+    <form th:action="@{/users/login}" method="POST">
+        <div class="form-group">
+            <label for="email">Username</label>
+            <input type="text" class="form-control"
+                   id="email" name="email"
+                   th:value="${email}"
+                   placeholder="Enter email" required>
+        </div>
+        <div class="form-group">
+            <label for="password">Password</label>
+            <input type="password" class="form-control" id="password" name="password" placeholder="Enter password" required>
+        </div>
+
+        <div class="form-group form-check">
+            <input type="checkbox" class="form-check-input" id="rememberme" name="rememberme">
+            <label class="form-check-label remember-me-label font-weight-bold" for="rememberme">Remember me</label>
+        </div>
+
+        <div class="row">
+            <div class="col col-md-4">
+                <div class="button-holder d-flex">
+                    <input type="submit" class="btn btn-info btn-lg" value="Login"/>
+                </div>
+            </div>
+        </div>
+
+        <div class="d-flex justify-content-center mt-2" style="min-height: 1.2rem">
+            <small th:if="${bad_credentials}"
+                   th:class="'alert-danger'"
+                   th:text="'Invalid username and/or password'">
+            </small>
+        </div>
+
+        <!--        <button type="submit" class="btn btn-primary btn-block">Login</button>-->
+    </form>
+</div>
+
+<!-- Bootstrap JS and dependencies -->
+<script src="https://code.jquery.com/jquery-3.5.1.slim.min.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.9.2/dist/umd/popper.min.js"></script>
+<script src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
+</body>
+</html>
