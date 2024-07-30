@@ -109,5 +109,30 @@ public class UserController {
 
         return new ModelAndView("redirect:/profile/" + id + "/gallery");
     }
+
+
+
+
+
+
+    @PostMapping("/profile/{id}/uploadAvatar")
+    public ModelAndView uploadAvatar(@PathVariable("id") Long id,
+                                    @RequestParam("file") MultipartFile file,
+                                    Principal principal) {
+
+        UserEntity user = userRepository.findById(id).get();
+        if (user == null || !user.getEmail().equals(principal.getName())) {
+            return new ModelAndView("error/403"); // Access Denied or User Not Found
+        }
+
+        try {
+            imageService.saveAvatarImage(file, id);
+        } catch (IOException e) {
+            e.printStackTrace();
+            return new ModelAndView("error/500"); // Internal Server Error
+        }
+
+        return new ModelAndView("redirect:/profile/" + id);
+    }
 }
 

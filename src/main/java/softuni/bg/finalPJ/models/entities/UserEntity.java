@@ -32,6 +32,10 @@ public class UserEntity {
     @OneToMany(mappedBy = "user", cascade = CascadeType.ALL, fetch = FetchType.LAZY)
     private List<Image> images;
 
+    @OneToOne
+    @JoinColumn(name = "avatar_image_id")
+    private Image avatarImage;
+
 
     public UserEntity() {
     }
@@ -106,5 +110,13 @@ public class UserEntity {
 
     public void setImages(List<Image> images) {
         this.images = images;
+    }
+
+    public Image getAvatarImage() {
+        return avatarImage;
+    }
+
+    public void setAvatarImage(Image avatarImage) {
+        this.avatarImage = avatarImage;
     }
 }

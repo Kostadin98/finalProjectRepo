@@ -9,4 +9,7 @@ import java.util.List;
 public interface ImageService {
 
      void saveImage(MultipartFile file, Long userId) throws IOException;
+
+     void saveAvatarImage(MultipartFile file, Long userId) throws IOException;
+
 }

@@ -75,7 +75,20 @@
                 </li>
 
                 <a th:href="@{/profile/{id}/gallery(id=${user.id})}" class="icon gallery"><i class="fas fa-images"></i></a>
-<!--                <img th:src="@{${user.avatarUrl}}" alt="Avatar" class="avatar mx-auto d-block">-->
+
+                <img th:src="@{${user.avatarImage != null ? user.avatarImage.filePath : '/images/defaultAvatar/defaultAvatarImage.png'}}"
+                     alt="Avatar"
+                     class="avatar mx-auto d-block">
+
+                <div class="upload-form" sec:authorize="isAuthenticated()">
+                    <form action="#" th:action="@{/profile/{id}/uploadAvatar(id=${user.id})}" method="post" enctype="multipart/form-data">
+                        <div class="form-group">
+                            <label for="file">Upload Image</label>
+                            <input type="file" id="file" name="file" class="form-control" required>
+                        </div>
+                        <button type="submit" class="btn btn-primary">Upload</button>
+                    </form>
+                </div>
 
                 <h2 class="mt-3" th:text="${user.fullName}">John Doe</h2>
                 <div class="social-buttons mt-3">
