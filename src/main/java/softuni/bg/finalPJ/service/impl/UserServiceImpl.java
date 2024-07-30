@@ -3,6 +3,7 @@ package softuni.bg.finalPJ.service.impl;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
+import org.springframework.web.servlet.ModelAndView;
 import softuni.bg.finalPJ.models.DTOs.UserRegistrationDTO;
 import softuni.bg.finalPJ.models.entities.UserEntity;
 import softuni.bg.finalPJ.models.entities.UserRoleEntity;
@@ -55,4 +56,37 @@ public class UserServiceImpl implements UserService {
         return userRepository.findByFirstNameContainingIgnoreCaseOrLastNameContainingIgnoreCaseOrEmailContainingIgnoreCase(
                 query, query, query);
     }
+
+    @Override
+    public void updateFirstName(Long id, String firstName) {
+
+        UserEntity user = userRepository.findById(id).get();
+        user.setFirstName(firstName);
+        userRepository.save(user);
+    }
+
+    @Override
+    public void updateLastName(Long id, String lastName) {
+
+        UserEntity user = userRepository.findById(id).get();
+        user.setLastName(lastName);
+        userRepository.save(user);
+    }
+
+    @Override
+    public void updatePassword(UserEntity user, String password) {
+        user.setPassword(passwordEncoder.encode(password));
+        userRepository.save(user);
+    }
+
+    public boolean checkIfNewAndCurrentPasswordMatches(UserEntity user, String passwordToMatch){
+       return passwordEncoder.matches(passwordToMatch, user.getPassword());
+    }
+
+    @Override
+    public boolean checkIfPasswordAndConfirmPasswordMatches(String password, String confirmPassword) {
+
+        return password.equals(confirmPassword);
+    }
+
 }

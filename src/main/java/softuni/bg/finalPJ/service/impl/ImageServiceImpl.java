@@ -51,7 +51,8 @@ public class ImageServiceImpl implements ImageService {
 
         Image image = new Image();
         image.setFileName(fileName);
-        //Correct Path
+
+        //Correct Path to set
         String correctPath = userDirectory + fileName;
         correctPath = correctPath.replace("src/main/resources/static","");
         filePath = Paths.get(correctPath);
@@ -60,7 +61,6 @@ public class ImageServiceImpl implements ImageService {
         image.setFileType(file.getContentType());
         image.setUser(user);
 
-        // Need to implement "save" method in ImageService(to use it instead of ImageRepository)
         imageRepository.save(image);
     }
 }

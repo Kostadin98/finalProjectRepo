@@ -3,64 +3,94 @@
       xmlns:sec="http://www.thymeleaf.org/extras/spring-security">
 <head>
     <meta charset="UTF-8">
-    <title>Settings Page</title>
-    <!-- Bootstrap CSS -->
+    <title>Settings</title>
     <link href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css" rel="stylesheet">
-    <!-- Font Awesome CSS -->
-    <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.3/css/all.min.css" rel="stylesheet">
     <style>
         body {
             background-color: #f8f9fa;
-            font-family: Arial, sans-serif;
         }
-        .settings-container {
+        .container {
             margin-top: 50px;
         }
-        .settings-card {
-            padding: 40px;
-            border-radius: 15px;
+        .form-control {
+            margin-bottom: 20px;
+        }
+        .btn-primary {
+            background-color: #007bff;
+            border-color: #007bff;
+        }
+        .btn-primary:hover {
+            background-color: #0056b3;
+            border-color: #0056b3;
+        }
+        .form-section {
             background-color: #ffffff;
-            box-shadow: 0 4px 20px rgba(0, 0, 0, 0.1);
-            max-width: 800px;
-            margin: auto;
+            padding: 20px;
+            border-radius: 10px;
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+            margin-bottom: 30px;
+        }
+        .form-section h3 {
+            margin-bottom: 20px;
         }
     </style>
 </head>
 <body>
-<div class="container settings-container">
-    <div class="row justify-content-center">
-        <div class="col-md-12">
-            <div class="card settings-card">
-                <h2 class="text-center">Settings</h2>
-                <form th:action="@{/settings}" th:object="${user}" method="post" enctype="multipart/form-data">
-                    <div class="form-group">
-                        <label for="firstName">First Name</label>
-                        <input type="text" class="form-control" id="firstName" th:field="*{firstName}" required>
-                    </div>
-                    <div class="form-group">
-                        <label for="lastName">Last Name</label>
-                        <input type="text" class="form-control" id="lastName" th:field="*{lastName}" required>
-                    </div>
-                    <div class="form-group">
-                        <label for="email">Email</label>
-                        <input type="email" class="form-control" id="email" th:field="*{email}" required>
-                    </div>
-                    <div class="form-group">
-                        <label for="password">New Password</label>
-                        <input type="password" class="form-control" id="password" th:field="*{password}">
-                    </div>
-                    <div class="form-group">
-                        <label for="profilePicture">Profile Picture</label>
-                        <input type="file" class="form-control" id="profilePicture" name="profilePicture">
-                    </div>
-                    <button type="submit" class="btn btn-primary">Save changes</button>
-                </form>
-            </div>
-        </div>
-    </div>
-</div>
+<div class="container">
+    <h2 class="text-center">Settings</h2>
 
-<!-- Bootstrap JS and dependencies -->
+    <!-- First Name Form -->
+    <div class="form-section">
+        <h3>Change First Name</h3>
+        <form th:action="@{/profile/{id}/settings/updateFirstName(id=${user.id})}" method="post">
+            <div class="form-group">
+                <label for="firstName">First Name</label>
+                <input type="text" id="firstName" name="firstName" class="form-control" th:value="${user.firstName}" required>
+            </div>
+            <button type="submit" class="btn btn-primary btn-block">Update First Name</button>
+        </form>
+    </div>
+
+    <!-- Last Name Form -->
+    <div class="form-section">
+        <h3>Change Last Name</h3>
+        <form th:action="@{/profile/{id}/settings/updateLastName(id=${user.id})}" method="post">
+            <div class="form-group">
+                <label for="lastName">Last Name</label>
+                <input type="text" id="lastName" name="lastName" class="form-control"
+                       th:value="${user.lastName}" required>
+            </div>
+            <button type="submit" class="btn btn-primary btn-block">Update Last Name</button>
+        </form>
+    </div>
+
+    <!-- Password Form -->
+    <div class="form-section">
+        <h3>Change Password</h3>
+        <form th:action="@{/profile/{id}/settings/updatePassword(id=${user.id})}" method="post">
+            <div class="form-group">
+                <label for="password">New Password</label>
+                <input type="password" id="password" name="password" class="form-control" required>
+            </div>
+            <div class="form-group">
+                <label for="confirmPassword">Confirm Password</label>
+                <input type="password" id="confirmPassword" name="confirmPassword" class="form-control" required>
+
+                <small  th:if="${confirmPasswordError}"
+                        th:text="${confirmPasswordError}" class="text-danger" style="font-size: 15px">Confirm password error</small>
+
+            </div>
+            <div class="form-group">
+                <label for="currentPassword">Current Password</label>
+                <input type="password" id="currentPassword" name="currentPassword" class="form-control" required>
+                <small  th:if="${currentPasswordError}"
+                        th:text="${currentPasswordError}" class="text-danger" style="font-size: 15px">Current password error</small>
+            </div>
+            <button type="submit" class="btn btn-primary btn-block">Update Password</button>
+        </form>
+    </div>
+
+</div>
 <script src="https://code.jquery.com/jquery-3.5.1.slim.min.js"></script>
 <script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.5.2/dist/umd/popper.min.js"></script>
 <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
