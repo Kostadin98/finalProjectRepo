@@ -29,6 +29,9 @@ public class UserEntity {
     @ManyToMany(fetch = FetchType.EAGER)
     private List<UserRoleEntity> roles = new ArrayList<>();
 
+    @OneToMany(mappedBy = "user", cascade = CascadeType.ALL, fetch = FetchType.LAZY)
+    private List<Image> images;
+
 
     public UserEntity() {
     }
@@ -95,5 +98,13 @@ public class UserEntity {
 
     public String fullName(){
         return firstName + " " + lastName;
+    }
+
+    public List<Image> getImages() {
+        return images;
+    }
+
+    public void setImages(List<Image> images) {
+        this.images = images;
     }
 }

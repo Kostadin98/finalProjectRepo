@@ -1,4 +1,6 @@
 spring:
+  resources:
+    static-locations: classpath:/static/
   datasource:
     driverClassName: com.mysql.cj.jdbc.Driver
     url: jdbc:mysql://localhost:3306/finalpj?allowPublicKeyRetrieval=true&useSSL=false&createDatabaseIfNotExist=true&serverTimezone=UTC
@@ -23,7 +25,6 @@ spring:
 
   default.admin.pass: 'topsecret'
   remember.me.key: 'topsecret'
-
 
 logging:
   level:
