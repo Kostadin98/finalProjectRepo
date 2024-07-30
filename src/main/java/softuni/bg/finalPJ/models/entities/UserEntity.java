@@ -36,6 +36,9 @@ public class UserEntity {
     @JoinColumn(name = "avatar_image_id")
     private Image avatarImage;
 
+    @Column(name = "qr_code_path")
+    private String qrCodePath;
+
 
     public UserEntity() {
     }
@@ -118,5 +121,13 @@ public class UserEntity {
 
     public void setAvatarImage(Image avatarImage) {
         this.avatarImage = avatarImage;
+    }
+
+    public String getQrCodePath() {
+        return qrCodePath;
+    }
+
+    public void setQrCodePath(String qrCodePath) {
+        this.qrCodePath = qrCodePath;
     }
 }

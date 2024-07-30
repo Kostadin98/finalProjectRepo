@@ -1,6 +1,8 @@
 package softuni.bg.finalPJ.web;
 
+import com.google.zxing.WriterException;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.core.Authentication;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
@@ -13,6 +15,7 @@ import softuni.bg.finalPJ.models.entities.UserEntity;
 import softuni.bg.finalPJ.repositories.ImageRepository;
 import softuni.bg.finalPJ.repositories.UserRepository;
 import softuni.bg.finalPJ.service.ImageService;
+import softuni.bg.finalPJ.service.QrCodeService;
 import softuni.bg.finalPJ.service.UserService;
 
 import java.io.IOException;
@@ -26,36 +29,46 @@ public class UserController {
     private final UserService userService;
     private final ImageRepository imageRepository;
     private final ImageService imageService;
+    private final QrCodeService qrCodeService;
 
 
     @Autowired
-    public UserController(UserRepository userRepository, UserService userService, ImageRepository imageRepository, ImageService imageService) {
+    public UserController(UserRepository userRepository, UserService userService, ImageRepository imageRepository, ImageService imageService, QrCodeService qrCodeService) {
         this.userRepository = userRepository;
         this.userService = userService;
         this.imageRepository = imageRepository;
         this.imageService = imageService;
+        this.qrCodeService = qrCodeService;
     }
 
 
     @GetMapping("/profile")
-    public ModelAndView profile(Principal principal) {
-        String email = principal.getName(); // Assuming the principal contains the email
-        UserEntity user = userRepository.findUserByEmail(email);
+    public ModelAndView showLoggedInUserProfile(Authentication authentication) throws IOException, WriterException {
+        UserEntity user = userRepository.findUserByEmail(authentication.getName());
 
-        ModelAndView modelAndView = new ModelAndView();
-        modelAndView.setViewName("profile");
+        if (user.getQrCodePath() == null || user.getQrCodePath().isEmpty()) {
+            String qrCodePath = qrCodeService.generateQRCodeImage("http://localhost:8080/profile/" + user.getId(), user.getId());
+            user.setQrCodePath(qrCodePath);
+            userRepository.save(user);
+        }
+
+        ModelAndView modelAndView = new ModelAndView("profile");
         modelAndView.addObject("user", user);
-
         return modelAndView;
     }
 
     @GetMapping("/profile/{id}")
-    public ModelAndView profile(@PathVariable("id") Long id) {
+    public ModelAndView showUserProfile(@PathVariable("id") Long id) throws IOException, WriterException {
         ModelAndView modelAndView = new ModelAndView();
         UserEntity user = userRepository.findById(id).orElseThrow(null);
         if (user == null) {
             modelAndView.setViewName("error/404");
         } else {
+            if (user.getQrCodePath() == null || user.getQrCodePath().isEmpty()) {
+                String qrCodePath = qrCodeService.generateQRCodeImage("http://localhost:8080/profile/" + id, id);
+                user.setQrCodePath(qrCodePath);
+                userRepository.save(user);
+            }
             modelAndView.setViewName("profile");
             modelAndView.addObject("user", user);
         }

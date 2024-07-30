@@ -63,6 +63,13 @@
             font-size: 18px;
             color: #6c757d;
         }
+        .profile-card .qr-code {
+            margin-top: 20px;
+            width: 150px;
+            height: 150px;
+            margin-left: auto;
+            margin-right: auto;
+        }
     </style>
 </head>
 <body>
@@ -100,9 +107,13 @@
                 <div class="email mt-4">
                     <strong>Email:</strong> <span th:text="${user.email}">john.doe@example.com</span>
                 </div>
-<!--                <div class="description mt-4" th:text="${user.description}">-->
-<!--                    Lorem ipsum dolor sit amet, consectetur adipiscing elit. Integer nec odio. Praesent libero. Sed cursus ante dapibus diam.-->
-<!--                </div>-->
+                <div class="mt-4">
+                    <img th:src="@{${user.qrCodePath != null ? user.qrCodePath : '/images/default-qr-codes/default-qr.png'}}"
+                         alt="QR Code"
+                         class="qr-code mx-auto d-block">                </div>
+                <!--                <div class="description mt-4" th:text="${user.description}">-->
+                <!--                    Lorem ipsum dolor sit amet, consectetur adipiscing elit. Integer nec odio. Praesent libero. Sed cursus ante dapibus diam.-->
+                <!--                </div>-->
             </div>
         </div>
     </div>

@@ -37,3 +37,12 @@ google.recaptcha:
   secret: ${RECAPTCHA_SITE_SECRET}
 
 
+
+
+             #Good practice
+#file:
+#  upload:
+#    dir:
+#      base: ./images
+#      avatars: ./images/avatars
+#      qr-codes: ./images/qr-codes
