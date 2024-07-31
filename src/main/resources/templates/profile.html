@@ -63,12 +63,18 @@
             font-size: 18px;
             color: #6c757d;
         }
-        .profile-card .qr-code {
-            margin-top: 20px;
-            width: 150px;
-            height: 150px;
-            margin-left: auto;
-            margin-right: auto;
+        .comment-section {
+            margin-top: 30px;
+        }
+        .comment {
+            margin-bottom: 20px;
+            padding: 10px;
+            border: 1px solid #ddd;
+            border-radius: 5px;
+            background-color: #f9f9f9;
+        }
+        .comment-form.hidden {
+            display: none;
         }
     </style>
 </head>
@@ -107,13 +113,39 @@
                 <div class="email mt-4">
                     <strong>Email:</strong> <span th:text="${user.email}">john.doe@example.com</span>
                 </div>
-                <div class="mt-4">
-                    <img th:src="@{${user.qrCodePath != null ? user.qrCodePath : '/images/default-qr-codes/default-qr.png'}}"
-                         alt="QR Code"
-                         class="qr-code mx-auto d-block">                </div>
-                <!--                <div class="description mt-4" th:text="${user.description}">-->
-                <!--                    Lorem ipsum dolor sit amet, consectetur adipiscing elit. Integer nec odio. Praesent libero. Sed cursus ante dapibus diam.-->
-                <!--                </div>-->
+            </div>
+
+            <!-- QR Code visualisation -->
+            <div class="mt-4">
+                <img th:src="@{${user.qrCodePath != null ? user.qrCodePath : '/images/default-qr-codes/default-qr.png'}}"
+                     alt="QR Code"
+                     class="qr-code mx-auto d-block">
+            </div>
+
+            <!-- Comments Section -->
+            <div class="comment-section mt-5">
+                <h3>Comments</h3>
+                <div th:each="comment : ${comments}" class="comment">
+                    <strong th:text="${comment.author}">Author</strong>
+                    <p th:text="${comment.content}">Comment content goes here...</p>
+                </div>
+
+                <!-- Comment Form -->
+                <div class="comment-form mt-4" th:classappend="${currentUser != null && currentUser.id == user.id} ? 'hidden'">
+                    <form th:action="@{/profile/{id}/addComment(id=${user.id})}" method="post">
+                        <div class="form-group">
+                            <label for="commentContent">Your Comment</label>
+                            <textarea id="commentContent" name="content" class="form-control" rows="3" required></textarea>
+                        </div>
+                        <div sec:authorize="isAnonymous()">
+                            <div class="form-group">
+                                <label for="commentAuthor">Your Name</label>
+                                <input type="text" id="commentAuthor" name="author" class="form-control">
+                            </div>
+                        </div>
+                        <button type="submit" class="btn btn-primary">Post Comment</button>
+                    </form>
+                </div>
             </div>
         </div>
     </div>

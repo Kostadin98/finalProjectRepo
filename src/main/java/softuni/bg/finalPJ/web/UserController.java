@@ -10,10 +10,12 @@ import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.multipart.MultipartFile;
 import org.springframework.web.servlet.ModelAndView;
+import softuni.bg.finalPJ.models.entities.Comment;
 import softuni.bg.finalPJ.models.entities.Image;
 import softuni.bg.finalPJ.models.entities.UserEntity;
 import softuni.bg.finalPJ.repositories.ImageRepository;
 import softuni.bg.finalPJ.repositories.UserRepository;
+import softuni.bg.finalPJ.service.CommentService;
 import softuni.bg.finalPJ.service.ImageService;
 import softuni.bg.finalPJ.service.QrCodeService;
 import softuni.bg.finalPJ.service.UserService;
@@ -30,15 +32,17 @@ public class UserController {
     private final ImageRepository imageRepository;
     private final ImageService imageService;
     private final QrCodeService qrCodeService;
+    private final CommentService commentService;
 
 
     @Autowired
-    public UserController(UserRepository userRepository, UserService userService, ImageRepository imageRepository, ImageService imageService, QrCodeService qrCodeService) {
+    public UserController(UserRepository userRepository, UserService userService, ImageRepository imageRepository, ImageService imageService, QrCodeService qrCodeService, CommentService commentService) {
         this.userRepository = userRepository;
         this.userService = userService;
         this.imageRepository = imageRepository;
         this.imageService = imageService;
         this.qrCodeService = qrCodeService;
+        this.commentService = commentService;
     }
 
 
@@ -53,6 +57,10 @@ public class UserController {
         }
 
         ModelAndView modelAndView = new ModelAndView("profile");
+
+        List<Comment> comments = commentService.getCommentsByUserId(user.getId());
+        modelAndView.addObject("comments", comments);
+        modelAndView.addObject("currentUser", userRepository.findUserByEmail(authentication.getName()));
         modelAndView.addObject("user", user);
         return modelAndView;
     }
@@ -69,6 +77,10 @@ public class UserController {
                 user.setQrCodePath(qrCodePath);
                 userRepository.save(user);
             }
+
+            List<Comment> comments = commentService.getCommentsByUserId(user.getId());
+            modelAndView.addObject("comments", comments);
+
             modelAndView.setViewName("profile");
             modelAndView.addObject("user", user);
         }
