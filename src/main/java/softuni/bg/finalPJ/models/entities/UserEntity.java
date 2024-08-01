@@ -39,6 +39,9 @@ public class UserEntity {
     @Column(name = "qr_code_path")
     private String qrCodePath;
 
+    @OneToMany(mappedBy = "receiver")
+    private List<Message> messages;
+
 
     public UserEntity() {
     }
@@ -129,5 +132,13 @@ public class UserEntity {
 
     public void setQrCodePath(String qrCodePath) {
         this.qrCodePath = qrCodePath;
+    }
+
+    public List<Message> getMessages() {
+        return messages;
+    }
+
+    public void setMessages(List<Message> messages) {
+        this.messages = messages;
     }
 }
