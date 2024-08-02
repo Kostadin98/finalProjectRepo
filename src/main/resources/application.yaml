@@ -21,6 +21,9 @@ spring:
     hiddenmethod:
       filter:
         enabled: true
+  messages:
+    basename: messages
+    encoding: UTF-8
 
 
   default.admin.pass: 'topsecret'

@@ -80,6 +80,26 @@
         .comment-form.hidden {
             display: none;
         }
+
+
+        /* Description CSS style */
+        .description-section {
+            margin-top: 20px;
+        }
+        .description-section h3 {
+            font-size: 1.5rem;
+            color: #333;
+        }
+        .description-section p {
+            font-size: 1rem;
+            color: #666;
+        }
+        .description-section .form-group {
+            margin-top: 20px;
+        }
+        .edit-description-form {
+            display: none;
+        }
     </style>
 </head>
 <body>
@@ -87,7 +107,7 @@
     <div class="row justify-content-center">
         <div class="col-md-12">
             <div class="card profile-card text-center">
-                <li class="nav-item" sec:authorize="isAuthenticated()">
+                <li class="nav-item" th:if="${isProfileOwner}">
                     <a th:href="@{/profile/{id}/settings(id=${user.id})}" class="icon settings"><i class="fas fa-cog"></i></a>
                 </li>
 
@@ -127,6 +147,24 @@
                 </div>
             </div>
 
+
+<!--            Description section-->
+            <section class="description-section">
+                <h3>Description</h3>
+                <p th:text="${user.description}">User description goes here...</p>
+
+                <!-- Update Description Form -->
+                <div class="edit-description-form" sec:authorize="isAuthenticated()">
+                    <form th:action="@{/profile/{id}/updateDescription(id=${user.id})}" method="post">
+                        <div class="form-group">
+                            <label for="description">Edit Description</label>
+                            <textarea id="description" name="description" class="form-control" rows="3" th:text="${user.description}"></textarea>
+                        </div>
+                        <button type="submit" class="btn btn-primary">Update Description</button>
+                    </form>
+                </div>
+            </section>
+
             <!-- QR Code visualisation -->
             <div class="mt-4">
                 <img th:src="@{${user.qrCodePath != null ? user.qrCodePath : '/images/default-qr-codes/default-qr.png'}}"
@@ -143,7 +181,7 @@
                 </div>
 
                 <!-- Comment Form -->
-                <div class="comment-form mt-4" th:classappend="${currentUser != null && currentUser.id == user.id} ? 'hidden'">
+                <div class="comment-form mt-4" th:if="${!isProfileOwner}">
                     <form th:action="@{/profile/{id}/addComment(id=${user.id})}" method="post">
                         <div class="form-group">
                             <label for="commentContent">Your Comment</label>
@@ -166,5 +204,17 @@
 <script src="https://code.jquery.com/jquery-3.5.1.slim.min.js"></script>
 <script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.5.2/dist/umd/popper.min.js"></script>
 <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
+
+<script>
+    document.addEventListener('DOMContentLoaded', function () {
+        var isProfileOwner = [[${isProfileOwner}]];  // Set this using Thymeleaf or inline script
+        var editDescriptionForm = document.querySelector('.edit-description-form');
+
+        if (isProfileOwner) {
+            editDescriptionForm.style.display = 'block';
+        }
+    });
+</script>
+
 </body>
 </html>

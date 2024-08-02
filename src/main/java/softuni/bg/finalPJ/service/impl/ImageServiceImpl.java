@@ -78,6 +78,7 @@ public class ImageServiceImpl implements ImageService {
         String userDirectory = SAVE_DIRECTORY_ROUTE_AVATARS + "user_" + userId + "/";
         Files.createDirectories(Paths.get(userDirectory));
 
+
         String fileName = file.getOriginalFilename();
         Path filePath = Paths.get(userDirectory + fileName);
         Files.write(filePath, file.getBytes());

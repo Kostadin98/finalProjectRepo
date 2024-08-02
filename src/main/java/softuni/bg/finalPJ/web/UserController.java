@@ -60,32 +60,36 @@ public class UserController {
 
         List<Comment> comments = commentService.getCommentsByUserId(user.getId());
         modelAndView.addObject("comments", comments);
-        modelAndView.addObject("currentUser", userRepository.findUserByEmail(authentication.getName()));
         modelAndView.addObject("user", user);
+
+        // Add a flag to determine if the logged-in user is the profile owner
+        boolean isProfileOwner = authentication != null && authentication.getName().equals(user.getEmail());
+        modelAndView.addObject("isProfileOwner", isProfileOwner);
         return modelAndView;
     }
 
     @GetMapping("/profile/{id}")
-    public ModelAndView showUserProfile(@PathVariable("id") Long id) throws IOException, WriterException {
-        ModelAndView modelAndView = new ModelAndView();
-        UserEntity user = userRepository.findById(id).orElseThrow(null);
-        if (user == null) {
-            modelAndView.setViewName("error/404");
-        } else {
-            if (user.getQrCodePath() == null || user.getQrCodePath().isEmpty()) {
-                String qrCodePath = qrCodeService.generateQRCodeImage("http://localhost:8080/profile/" + id, id);
-                user.setQrCodePath(qrCodePath);
-                userRepository.save(user);
-            }
+    public ModelAndView showUserProfile(@PathVariable("id") Long id, Authentication authentication)
+            throws IOException, WriterException {
+        ModelAndView modelAndView = new ModelAndView("profile");
+        UserEntity user = userRepository.findById(id).orElseThrow(() -> new RuntimeException("User not found"));
 
-            List<Comment> comments = commentService.getCommentsByUserId(user.getId());
-            modelAndView.addObject("comments", comments);
-
-            modelAndView.setViewName("profile");
-            modelAndView.addObject("user", user);
+        if (user.getQrCodePath() == null || user.getQrCodePath().isEmpty()) {
+            String qrCodePath = qrCodeService.generateQRCodeImage("http://localhost:8080/profile/" + id, id);
+            user.setQrCodePath(qrCodePath);
+            userRepository.save(user);
         }
+
+        List<Comment> comments = commentService.getCommentsByUserId(user.getId());
+        modelAndView.addObject("comments", comments);
+        modelAndView.addObject("user", user);
+
+        boolean isProfileOwner = authentication != null && authentication.getName().equals(user.getEmail());
+        modelAndView.addObject("isProfileOwner", isProfileOwner);
+
         return modelAndView;
     }
+
 
     @GetMapping("/search")
     public ModelAndView listUsers(@RequestParam(value = "query", required = false) String query) {
@@ -135,11 +139,6 @@ public class UserController {
         return new ModelAndView("redirect:/profile/" + id + "/gallery");
     }
 
-
-
-
-
-
     @PostMapping("/profile/{id}/uploadAvatar")
     public ModelAndView uploadAvatar(@PathVariable("id") Long id,
                                     @RequestParam("file") MultipartFile file,
@@ -159,5 +158,20 @@ public class UserController {
 
         return new ModelAndView("redirect:/profile/" + id);
     }
-}
 
+    @PostMapping("/profile/{id}/updateDescription")
+    public ModelAndView updateDescription(@PathVariable("id") Long id,
+                                          @RequestParam("description") String description,
+                                          Authentication authentication) {
+        UserEntity user = userRepository.findById(id).orElseThrow(() -> new RuntimeException("User not found"));
+
+        if (authentication == null || !authentication.getName().equals(user.getEmail())) {
+            return new ModelAndView("error/403"); // Access Denied
+        }
+
+        user.setDescription(description);
+        userRepository.save(user);
+
+        return new ModelAndView("redirect:/profile/" + id);
+    }
+}
