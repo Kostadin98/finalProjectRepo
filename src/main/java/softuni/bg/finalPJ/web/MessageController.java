@@ -15,6 +15,7 @@ import softuni.bg.finalPJ.models.entities.Message;
 import softuni.bg.finalPJ.models.entities.UserEntity;
 import softuni.bg.finalPJ.repositories.UserRepository;
 import softuni.bg.finalPJ.service.MessageService;
+import softuni.bg.finalPJ.service.UserService;
 
 import java.security.Principal;
 
@@ -22,12 +23,12 @@ import java.security.Principal;
 public class MessageController {
 
     private final MessageService messageService;
-    private final UserRepository userRepository;
+    private final UserService userService;
 
     @Autowired
-    public MessageController(MessageService messageService, UserRepository userRepository) {
+    public MessageController(MessageService messageService, UserService userService) {
         this.messageService = messageService;
-        this.userRepository = userRepository;
+        this.userService = userService;
     }
 
     @GetMapping("/profile/{id}/contactForm")
@@ -35,8 +36,7 @@ public class MessageController {
 
         ModelAndView modelAndView = new ModelAndView("contactForm");
 
-        UserEntity user = userRepository.findById(id)
-                .orElseThrow(() -> new UsernameNotFoundException("User not found"));
+        UserEntity user = userService.findById(id);
 
         modelAndView.addObject("user", user);
         return modelAndView;
@@ -65,8 +65,7 @@ public class MessageController {
                                   Principal principal) {
 
 
-        UserEntity user = userRepository.findById(id)
-                .orElseThrow(() -> new UsernameNotFoundException("User not found"));
+        UserEntity user = userService.findById(id);
 
         if (!user.getEmail().equals(principal.getName())) {
             throw new AccessDeniedException("You are not authorized to view this page");
@@ -85,8 +84,7 @@ public class MessageController {
 
         messageService.deleteMessage(messageId, id);
 
-        UserEntity user = userRepository.findById(id)
-                .orElseThrow(() -> new UsernameNotFoundException("User not found"));
+        UserEntity user = userService.findById(id);
 
         ModelAndView modelAndView = new ModelAndView("inbox");
         modelAndView.addObject("messages", messageService.getMessagesForUser(id));

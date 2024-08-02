@@ -33,6 +33,7 @@ public class ImageServiceImpl implements ImageService {
     }
 
 
+    @Override
     public List<Image> findImagesByUserId(Long userId) {
         return imageRepository.findImagesByUserId(userId);
     }

@@ -7,9 +7,17 @@ import java.util.List;
 
 public interface UserService {
 
+    void save(UserEntity user);
+
     boolean register(UserRegistrationDTO userRegistrationDTO);
 
     List<UserEntity> searchUsers(String query);
+
+    List<UserEntity> findAllUsers();
+
+    UserEntity findById(Long id);
+
+    UserEntity findUserByEmail(String email);
 
     void updateFirstName(Long id,String firstName);
 

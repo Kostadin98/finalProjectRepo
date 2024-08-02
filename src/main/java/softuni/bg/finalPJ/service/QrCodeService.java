@@ -8,4 +8,6 @@ import java.io.IOException;
 public interface QrCodeService {
 
     String generateQRCodeImage(String text, Long userId) throws IOException, WriterException;
+
+    void saveQrIfHasNoExisting(UserEntity user) throws IOException, WriterException;
 }

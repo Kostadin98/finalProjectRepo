@@ -7,6 +7,7 @@ import com.google.zxing.common.BitMatrix;
 import com.google.zxing.qrcode.QRCodeWriter;
 import org.springframework.stereotype.Service;
 import softuni.bg.finalPJ.models.entities.UserEntity;
+import softuni.bg.finalPJ.repositories.UserRepository;
 import softuni.bg.finalPJ.service.QrCodeService;
 
 import javax.imageio.ImageIO;
@@ -21,6 +22,13 @@ public class QrCodeServiceImpl implements QrCodeService {
 
     private final String qrCodePath = "src/main/resources/static/images/qr-codes/";
 
+    private final UserRepository userRepository;
+
+    public QrCodeServiceImpl(UserRepository userRepository) {
+        this.userRepository = userRepository;
+    }
+
+    //Generating QR code for each user
     @Override
     public String generateQRCodeImage(String text, Long userId) throws IOException, WriterException {
         File directory = new File(qrCodePath);
@@ -37,5 +45,14 @@ public class QrCodeServiceImpl implements QrCodeService {
         MatrixToImageWriter.writeToPath(bitMatrix, "PNG", filePath);
 
         return "/images/qr-codes/" + fileName;
+    }
+
+    @Override
+    public void saveQrIfHasNoExisting(UserEntity user) throws IOException, WriterException {
+        if (user.getQrCodePath() == null || user.getQrCodePath().isEmpty()) {
+            String qrCodePath = generateQRCodeImage("http://localhost:8080/profile/" + user.getId(), user.getId());
+            user.setQrCodePath(qrCodePath);
+            userRepository.save(user);
+        }
     }
 }

@@ -1,9 +1,6 @@
 package softuni.bg.finalPJ.web;
 
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.security.access.annotation.Secured;
-import org.springframework.security.core.Authentication;
-import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
@@ -18,17 +15,15 @@ import softuni.bg.finalPJ.service.UserService;
 public class UserSettingsController {
 
     private final UserService userService;
-    private final UserRepository userRepository;
 
     @Autowired
-    public UserSettingsController(UserService userService, UserRepository userRepository) {
+    public UserSettingsController(UserService userService) {
         this.userService = userService;
-        this.userRepository = userRepository;
     }
 
     @GetMapping("/profile/{id}/settings")
     public ModelAndView showSettings(@PathVariable Long id) {
-        UserEntity user = userRepository.findById(id).get();
+        UserEntity user = userService.findById(id);
         ModelAndView mav = new ModelAndView("settings");
         mav.addObject("user", user);
         return mav;
@@ -55,7 +50,7 @@ public class UserSettingsController {
                                        @RequestParam String confirmPassword,
                                        @RequestParam String currentPassword) {
 
-        UserEntity user = userRepository.findById(id).get();
+        UserEntity user = userService.findById(id);
         boolean passwordMatches = userService.checkIfNewAndCurrentPasswordMatches(user, currentPassword);
         boolean confirmPasswordMatches = userService.checkIfPasswordAndConfirmPasswordMatches(password, confirmPassword);
 

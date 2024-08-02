@@ -12,4 +12,5 @@ public interface ImageService {
 
      void saveAvatarImage(MultipartFile file, Long userId) throws IOException;
 
+     List<Image> findImagesByUserId(Long id);
 }

@@ -27,34 +27,29 @@ import java.util.List;
 @Controller
 public class UserController {
 
-    private final UserRepository userRepository;
     private final UserService userService;
-    private final ImageRepository imageRepository;
     private final ImageService imageService;
     private final QrCodeService qrCodeService;
     private final CommentService commentService;
 
 
     @Autowired
-    public UserController(UserRepository userRepository, UserService userService, ImageRepository imageRepository, ImageService imageService, QrCodeService qrCodeService, CommentService commentService) {
-        this.userRepository = userRepository;
+    public UserController(UserService userService, ImageService imageService, QrCodeService qrCodeService, CommentService commentService) {
         this.userService = userService;
-        this.imageRepository = imageRepository;
         this.imageService = imageService;
         this.qrCodeService = qrCodeService;
         this.commentService = commentService;
     }
 
 
+    //Logged user view
     @GetMapping("/profile")
     public ModelAndView showLoggedInUserProfile(Authentication authentication) throws IOException, WriterException {
-        UserEntity user = userRepository.findUserByEmail(authentication.getName());
 
-        if (user.getQrCodePath() == null || user.getQrCodePath().isEmpty()) {
-            String qrCodePath = qrCodeService.generateQRCodeImage("http://localhost:8080/profile/" + user.getId(), user.getId());
-            user.setQrCodePath(qrCodePath);
-            userRepository.save(user);
-        }
+        UserEntity user = userService.findUserByEmail(authentication.getName());
+
+        //Generating QR code if not exists
+        qrCodeService.saveQrIfHasNoExisting(user);
 
         ModelAndView modelAndView = new ModelAndView("profile");
 
@@ -68,17 +63,16 @@ public class UserController {
         return modelAndView;
     }
 
+    //Not logged user view
     @GetMapping("/profile/{id}")
     public ModelAndView showUserProfile(@PathVariable("id") Long id, Authentication authentication)
             throws IOException, WriterException {
         ModelAndView modelAndView = new ModelAndView("profile");
-        UserEntity user = userRepository.findById(id).orElseThrow(() -> new RuntimeException("User not found"));
 
-        if (user.getQrCodePath() == null || user.getQrCodePath().isEmpty()) {
-            String qrCodePath = qrCodeService.generateQRCodeImage("http://localhost:8080/profile/" + id, id);
-            user.setQrCodePath(qrCodePath);
-            userRepository.save(user);
-        }
+        UserEntity user = userService.findById(id);
+
+        //Generating QR code if not exists
+        qrCodeService.saveQrIfHasNoExisting(user);
 
         List<Comment> comments = commentService.getCommentsByUserId(user.getId());
         modelAndView.addObject("comments", comments);
@@ -91,29 +85,14 @@ public class UserController {
     }
 
 
-    @GetMapping("/search")
-    public ModelAndView listUsers(@RequestParam(value = "query", required = false) String query) {
-        List<UserEntity> users;
-        if (query != null && !query.isEmpty()) {
-            users = userService.searchUsers(query);
-        } else {
-            users = userRepository.findAll();
-        }
-        ModelAndView modelAndView = new ModelAndView();
-        modelAndView.setViewName("search");
-        modelAndView.addObject("users", users);
-        modelAndView.addObject("query", query);
-        return modelAndView;
-    }
-
     @GetMapping("/profile/{id}/gallery")
     public ModelAndView viewGallery(@PathVariable("id") Long id, Principal principal) {
-        UserEntity user = userRepository.findById(id).orElseThrow(null);
+        UserEntity user = userService.findById(id);
         if (user == null) {
             return new ModelAndView("error/404"); // User Not Found
         }
 
-        List<Image> images = imageRepository.findImagesByUserId(id);
+        List<Image> images = imageService.findImagesByUserId(id);
         ModelAndView modelAndView = new ModelAndView("gallery");
         modelAndView.addObject("user", user);
         modelAndView.addObject("images", images);
@@ -124,7 +103,8 @@ public class UserController {
     public ModelAndView uploadImage(@PathVariable("id") Long id,
                                     @RequestParam("file") MultipartFile file,
                                     Principal principal) {
-        UserEntity user = userRepository.findById(id).get();
+
+        UserEntity user = userService.findById(id);
         if (user == null || !user.getEmail().equals(principal.getName())) {
             return new ModelAndView("error/403"); // Access Denied or User Not Found
         }
@@ -144,7 +124,7 @@ public class UserController {
                                     @RequestParam("file") MultipartFile file,
                                     Principal principal) {
 
-        UserEntity user = userRepository.findById(id).get();
+        UserEntity user = userService.findById(id);
         if (user == null || !user.getEmail().equals(principal.getName())) {
             return new ModelAndView("error/403"); // Access Denied or User Not Found
         }
@@ -163,14 +143,14 @@ public class UserController {
     public ModelAndView updateDescription(@PathVariable("id") Long id,
                                           @RequestParam("description") String description,
                                           Authentication authentication) {
-        UserEntity user = userRepository.findById(id).orElseThrow(() -> new RuntimeException("User not found"));
+        UserEntity user = userService.findById(id);
 
         if (authentication == null || !authentication.getName().equals(user.getEmail())) {
             return new ModelAndView("error/403"); // Access Denied
         }
 
         user.setDescription(description);
-        userRepository.save(user);
+        userService.save(user);
 
         return new ModelAndView("redirect:/profile/" + id);
     }

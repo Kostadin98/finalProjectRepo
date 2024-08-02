@@ -1,6 +1,7 @@
 package softuni.bg.finalPJ.service.impl;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 import org.springframework.web.servlet.ModelAndView;
@@ -29,6 +30,11 @@ public class UserServiceImpl implements UserService {
     }
 
     @Override
+    public void save(UserEntity user) {
+        userRepository.save(user);
+    }
+
+    @Override
     public boolean register(UserRegistrationDTO userRegistrationDTO) {
 
         boolean userAlreadyExists = userRepository.findUserEntityByEmail(userRegistrationDTO.getEmail()).isPresent();
@@ -51,10 +57,31 @@ public class UserServiceImpl implements UserService {
         return true;
     }
 
+    // Logic for "search" page
+    @Override
     public List<UserEntity> searchUsers(String query) {
         // Split the query into possible first name and last name
         return userRepository.findByFirstNameContainingIgnoreCaseOrLastNameContainingIgnoreCaseOrEmailContainingIgnoreCase(
                 query, query, query);
+    }
+
+    @Override
+    public List<UserEntity> findAllUsers() {
+        List<UserEntity> all = userRepository.findAll();
+
+        return all;
+    }
+
+    @Override
+    public UserEntity findById(Long id) {
+
+        return userRepository.findById(id)
+                .orElseThrow(() -> new UsernameNotFoundException("User not found"));
+    }
+
+    @Override
+    public UserEntity findUserByEmail(String email) {
+        return userRepository.findUserByEmail(email);
     }
 
     @Override
@@ -79,6 +106,7 @@ public class UserServiceImpl implements UserService {
         userRepository.save(user);
     }
 
+    @Override
     public boolean checkIfNewAndCurrentPasswordMatches(UserEntity user, String passwordToMatch){
        return passwordEncoder.matches(passwordToMatch, user.getPassword());
     }
