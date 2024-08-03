@@ -11,7 +11,9 @@ public interface UserService {
 
     boolean register(UserRegistrationDTO userRegistrationDTO);
 
-    List<UserEntity> searchUsers(String query);
+    List<UserEntity> findByCategoriesId(Long categoryId);
+
+    List<UserEntity> searchUsers(String query,  Long categoryId);
 
     List<UserEntity> findAllUsers();
 

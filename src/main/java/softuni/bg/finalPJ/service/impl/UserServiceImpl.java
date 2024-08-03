@@ -4,7 +4,6 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
-import org.springframework.web.servlet.ModelAndView;
 import softuni.bg.finalPJ.models.DTOs.UserRegistrationDTO;
 import softuni.bg.finalPJ.models.entities.UserEntity;
 import softuni.bg.finalPJ.models.entities.UserRoleEntity;
@@ -58,13 +57,21 @@ public class UserServiceImpl implements UserService {
         return true;
     }
 
+    @Override
+    public List<UserEntity> findByCategoriesId(Long categoryId) {
+
+        return userRepository.findByCategoriesId(categoryId);
+    }
+
     // Logic for "search" page
     @Override
-    public List<UserEntity> searchUsers(String query) {
-        // Split the query into possible first name and last name
-        return userRepository.findByFirstNameContainingIgnoreCaseOrLastNameContainingIgnoreCaseOrEmailContainingIgnoreCase(
-                query, query, query);
-
+    public List<UserEntity> searchUsers(String query, Long categoryId) {
+        if (categoryId != null) {
+            return userRepository.findByCategoriesId(categoryId);
+        } else {
+            return userRepository.findByCompanyNameContainingIgnoreCaseOrFirstNameContainingIgnoreCaseOrLastNameContainingIgnoreCaseOrEmailContainingIgnoreCase(
+                    query, query, query, query);
+        }
     }
 
     @Override

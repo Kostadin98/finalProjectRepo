@@ -5,6 +5,7 @@ import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.servlet.ModelAndView;
 import softuni.bg.finalPJ.models.entities.UserEntity;
+import softuni.bg.finalPJ.service.CategoryService;
 import softuni.bg.finalPJ.service.UserService;
 
 import java.util.List;
@@ -13,27 +14,34 @@ import java.util.List;
 public class HomeController {
 
     private final UserService userService;
+    private final CategoryService categoryService;
 
-    public HomeController(UserService userService) {
+    public HomeController(UserService userService, CategoryService categoryService) {
         this.userService = userService;
+        this.categoryService = categoryService;
     }
-
 
 
     @GetMapping("/search")
-    public ModelAndView listUsers(@RequestParam(value = "query", required = false) String query) {
+    public ModelAndView listUsers(@RequestParam(value = "query", required = false) String query,
+                                  @RequestParam(value = "category", required = false) Long categoryId) {
         List<UserEntity> users;
         if (query != null && !query.isEmpty()) {
-            users = userService.searchUsers(query);
-        } else {
+            users = userService.searchUsers(query, categoryId);
+        } else if(categoryId != null) {
+            users = userService.searchUsers(query, categoryId);
+        }else {
             users = userService.findAllUsers();
         }
-        ModelAndView modelAndView = new ModelAndView();
-        modelAndView.setViewName("search");
+
+        ModelAndView modelAndView = new ModelAndView("search");
         modelAndView.addObject("users", users);
         modelAndView.addObject("query", query);
+        modelAndView.addObject("categoryId", categoryId);
+        modelAndView.addObject("categories", categoryService.findAll()); // Assuming you have a category service
         return modelAndView;
     }
+
 
 
     @GetMapping("/")

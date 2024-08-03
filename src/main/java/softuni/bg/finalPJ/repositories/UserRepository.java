@@ -1,7 +1,6 @@
 package softuni.bg.finalPJ.repositories;
 
 import org.springframework.data.jpa.repository.JpaRepository;
-import org.springframework.security.core.userdetails.User;
 import org.springframework.stereotype.Repository;
 import softuni.bg.finalPJ.models.entities.UserEntity;
 
@@ -17,7 +16,9 @@ public interface UserRepository extends JpaRepository<UserEntity, Long> {
 
     UserEntity findUserByEmail(String email);
 
-    List<UserEntity> findByFirstNameContainingIgnoreCaseOrLastNameContainingIgnoreCaseOrEmailContainingIgnoreCase(
-            String firstName, String lastName, String email);
+    List<UserEntity> findByCompanyNameContainingIgnoreCaseOrFirstNameContainingIgnoreCaseOrLastNameContainingIgnoreCaseOrEmailContainingIgnoreCase(
+            String companyName,String firstName, String lastName, String email);
+
+    List<UserEntity> findByCategoriesId(Long categoryId);
 
 }
