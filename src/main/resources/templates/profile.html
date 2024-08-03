@@ -121,6 +121,10 @@
                     <a th:href="@{/profile/{id}/contactForm(id=${user.id})}" class="icon message"><i class="fas fa-envelope"></i></a>
                 </li>
 
+                <div class="mt-4" th:if="${isProfileOwner}">
+                    <a th:href="@{/profile/{id}/manageCategories(id=${user.id})}" class="btn btn-primary">Manage Categories</a>
+                </div>
+
                 <img th:src="@{${user.avatarImage != null ? user.avatarImage.filePath : '/images/defaultAvatar/defaultAvatarImage.png'}}"
                      alt="Avatar"
                      class="avatar mx-auto d-block">

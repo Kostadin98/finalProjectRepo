@@ -33,6 +33,9 @@ public class UserEntity {
     private String companyName;
 
     @ManyToMany(fetch = FetchType.EAGER)
+    private List<Category> categories = new ArrayList<>();
+
+    @ManyToMany(fetch = FetchType.EAGER)
     private List<UserRoleEntity> roles = new ArrayList<>();
 
     @OneToMany(mappedBy = "user", cascade = CascadeType.ALL, fetch = FetchType.LAZY)
@@ -116,6 +119,15 @@ public class UserEntity {
 
     public List<UserRoleEntity> getRoles() {
         return roles;
+    }
+
+    public List<Category> getCategories() {
+        return categories;
+    }
+
+    public UserEntity setCategories(List<Category> categories) {
+        this.categories = categories;
+        return this;
     }
 
     public void setRoles(List<UserRoleEntity> roles) {

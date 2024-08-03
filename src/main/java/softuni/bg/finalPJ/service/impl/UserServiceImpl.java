@@ -64,6 +64,7 @@ public class UserServiceImpl implements UserService {
         // Split the query into possible first name and last name
         return userRepository.findByFirstNameContainingIgnoreCaseOrLastNameContainingIgnoreCaseOrEmailContainingIgnoreCase(
                 query, query, query);
+
     }
 
     @Override

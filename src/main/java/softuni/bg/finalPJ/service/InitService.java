@@ -1,14 +1,18 @@
 package softuni.bg.finalPJ.service;
 
+import softuni.bg.finalPJ.models.entities.Category;
 import softuni.bg.finalPJ.models.entities.UserEntity;
 import softuni.bg.finalPJ.models.entities.UserRoleEntity;
+import softuni.bg.finalPJ.models.enums.CategoryEnum;
 import softuni.bg.finalPJ.models.enums.UserRoleEnum;
+import softuni.bg.finalPJ.repositories.CategoryRepository;
 import softuni.bg.finalPJ.repositories.UserRepository;
 import softuni.bg.finalPJ.repositories.UserRoleRepository;
 import jakarta.annotation.PostConstruct;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 
+import java.util.Arrays;
 import java.util.List;
 
 @Service
@@ -17,14 +21,16 @@ public class InitService {
     private UserRoleRepository userRoleRepository;
     private UserRepository userRepository;
     private PasswordEncoder passwordEncoder;
+    private final CategoryRepository categoryRepository;
 
     public InitService(UserRoleRepository userRoleRepository,
                        UserRepository userRepository,
-                       PasswordEncoder passwordEncoder
+                       PasswordEncoder passwordEncoder, CategoryRepository categoryRepository
     ) {
         this.userRoleRepository = userRoleRepository;
         this.userRepository = userRepository;
         this.passwordEncoder = passwordEncoder;
+        this.categoryRepository = categoryRepository;
     }
 
     @PostConstruct
@@ -36,12 +42,20 @@ public class InitService {
     private void initRoles() {
         if (userRoleRepository.count() == 0) {
 
+            //Init roles
             UserRoleEntity normalUser = new UserRoleEntity().setRole(UserRoleEnum.NORMAL);
             UserRoleEntity admin = new UserRoleEntity().setRole(UserRoleEnum.ADMIN);
 
             userRoleRepository.save(normalUser);
             userRoleRepository.save(admin);
 
+            //Init categories
+            CategoryEnum[] categories = CategoryEnum.values();
+            for (CategoryEnum categoryEnum: categories){
+
+                Category categoryToSave = new Category().setCategory(categoryEnum);
+                categoryRepository.save(categoryToSave);
+            }
         }
     }
 
