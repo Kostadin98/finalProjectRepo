@@ -50,6 +50,7 @@ public class UserServiceImpl implements UserService {
         userToSave.setEmail(userRegistrationDTO.getEmail());
         userToSave.setFirstName(userRegistrationDTO.getFirstName());
         userToSave.setLastName(userRegistrationDTO.getLastName());
+        userToSave.setCompanyName(userRegistrationDTO.getCompanyName());
         userToSave.setPassword(passwordEncoder.encode(userRegistrationDTO.getPassword()));
         userToSave.addRole(roleToSet);
 
@@ -98,6 +99,15 @@ public class UserServiceImpl implements UserService {
         UserEntity user = userRepository.findById(id).get();
         user.setLastName(lastName);
         userRepository.save(user);
+    }
+
+    @Override
+    public void updateCompanyName(Long id, String companyName) {
+
+        UserEntity user = findById(id);
+        user.setCompanyName(companyName);
+        save(user);
+
     }
 
     @Override

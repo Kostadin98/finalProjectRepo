@@ -23,6 +23,8 @@ public interface UserService {
 
     void updateLastName(Long id, String lastName);
 
+    void updateCompanyName(Long id, String companyName);
+
     void updatePassword(UserEntity user, String password);
 
     boolean checkIfNewAndCurrentPasswordMatches(UserEntity user, String passwordToMatch);

@@ -26,8 +26,11 @@ public class UserEntity {
     @Column(nullable = false)
     private String password;
 
-    @Column(name = "description", nullable = true)
+    @Column(name = "description")
     private String description;
+
+    @Column(name = "company_name", nullable = false)
+    private String companyName;
 
     @ManyToMany(fetch = FetchType.EAGER)
     private List<UserRoleEntity> roles = new ArrayList<>();
@@ -101,6 +104,14 @@ public class UserEntity {
 
     public void setDescription(String description) {
         this.description = description;
+    }
+
+    public String getCompanyName() {
+        return companyName;
+    }
+
+    public void setCompanyName(String companyName) {
+        this.companyName = companyName;
     }
 
     public List<UserRoleEntity> getRoles() {

@@ -1,6 +1,7 @@
 package softuni.bg.finalPJ.models.DTOs;
 
 
+import jakarta.annotation.Nullable;
 import jakarta.validation.constraints.Email;
 
 import jakarta.validation.constraints.NotBlank;
@@ -9,15 +10,23 @@ import org.hibernate.validator.constraints.Length;
 
 public class UserRegistrationDTO {
     @NotNull
-    @Length(min = 5, max = 20, message = "First name should be at least 5 characters")
+    @Length(min = 5, max = 20, message = "First name should be between 5 and 20 characters")
     private String firstName;
+
     @NotNull
-    @Length(min = 5, max = 20, message = "Last name should be at least 5 characters")
+    @Length(min = 5, max = 20, message = "Last name should be between 5 and 20 characters")
     private String lastName;
+
+    @NotNull
+    @Length(min = 5, max = 30, message = "Company name should be between 5 and 30 characters")
+    private String companyName;
+
     @NotBlank(message = "Password cannot be empty")
     private String password;
+
     @NotBlank(message = "Passwords do not match")
     private String confirmPassword;
+
     @NotNull
     @Email
     private String email;
@@ -36,6 +45,16 @@ public class UserRegistrationDTO {
 
     public UserRegistrationDTO setLastName(String lastName) {
         this.lastName = lastName;
+        return this;
+    }
+
+
+    public String getCompanyName() {
+        return companyName;
+    }
+
+    public UserRegistrationDTO setCompanyName( String companyName) {
+        this.companyName = companyName;
         return this;
     }
 

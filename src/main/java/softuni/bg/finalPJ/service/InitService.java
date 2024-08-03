@@ -57,6 +57,7 @@ public class InitService {
         admin.setEmail("admin@example");
         admin.setFirstName("Admin");
         admin.setLastName("Adminov");
+        admin.setCompanyName("AdminCompany");
         admin.setPassword(passwordEncoder.encode("adminPassword"));
         admin.setRoles(userRoleRepository.findAll());
 
@@ -73,6 +74,7 @@ public class InitService {
         normalUser.setFirstName("User");
         normalUser.setLastName("Userov");
         normalUser.setPassword(passwordEncoder.encode("normalUserPassword"));
+        normalUser.setCompanyName("NormalCompany");
         normalUser.setRoles(List.of(normalUserRole));
 
         userRepository.save(normalUser);

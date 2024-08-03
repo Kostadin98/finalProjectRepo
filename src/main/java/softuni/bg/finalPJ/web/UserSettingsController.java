@@ -44,6 +44,13 @@ public class UserSettingsController {
         return new ModelAndView("redirect:/profile/" + id);
     }
 
+    @PostMapping("/profile/{id}/settings/updateCompanyName")
+    public ModelAndView updateCompanyName(@PathVariable Long id, @RequestParam String companyName){
+
+        userService.updateCompanyName(id, companyName);
+        return new ModelAndView("redirect:/profile/" + id);
+    }
+
     @PostMapping("/profile/{id}/settings/updatePassword")
     public ModelAndView updatePassword(@PathVariable Long id,
                                        @RequestParam String password,
