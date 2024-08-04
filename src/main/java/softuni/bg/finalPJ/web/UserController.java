@@ -13,8 +13,6 @@ import org.springframework.web.servlet.ModelAndView;
 import softuni.bg.finalPJ.models.entities.Comment;
 import softuni.bg.finalPJ.models.entities.Image;
 import softuni.bg.finalPJ.models.entities.UserEntity;
-import softuni.bg.finalPJ.repositories.ImageRepository;
-import softuni.bg.finalPJ.repositories.UserRepository;
 import softuni.bg.finalPJ.service.CommentService;
 import softuni.bg.finalPJ.service.ImageService;
 import softuni.bg.finalPJ.service.QrCodeService;

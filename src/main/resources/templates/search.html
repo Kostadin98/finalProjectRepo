@@ -2,47 +2,223 @@
 <html xmlns:th="http://www.thymeleaf.org">
 
 <head>
+    <!-- Navigation Bar -->
+    <nav th:replace="~{fragments/navigation}"></nav>
+    <!-- Header -->
+    <div th:replace="~{fragments/header}"></div>
+
     <meta charset="UTF-8">
-    <title>User List</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Search</title>
     <!-- Bootstrap CSS -->
     <link href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css" rel="stylesheet">
+    <style>
+        body {
+            background: url('/images/themes/img.png') no-repeat center fixed;
+            background-size: cover;
+            font-family: 'Arial', sans-serif; /* Changed font to match login page */
+            margin: 0;
+            padding: 0;
+            display: flex;
+            flex-direction: column;
+            min-height: 100vh;
+        }
+
+        .container {
+            background-color: rgba(255, 255, 255, 0.9); /* Slightly transparent background */
+            padding: 2rem;
+            border-radius: 0.75rem;
+            box-shadow: 0 0.5rem 1rem rgba(0, 0, 0, 0.2);
+            max-width: 1200px;
+            margin: 2rem auto; /* Center the container horizontally with margin */
+        }
+
+        .titleClass {
+            text-align: center;
+            margin-bottom: 1.5rem;
+            font-size: 2rem; /* Larger font size for the heading */
+            font-weight: 600; /* Semi-bold text */
+            text-transform: uppercase; /* Uppercase text */
+            letter-spacing: 1px; /* Letter spacing for readability */
+            color: #333;
+        }
+
+        .form-inline {
+            justify-content: center; /* Center form elements */
+        }
+
+        .form-inline .form-control,
+        .form-inline .btn {
+            margin-right: 0.5rem; /* Adjust spacing for centered alignment */
+        }
+
+        .form-inline .btn {
+            border-radius: 0.25rem;
+            font-weight: 500; /* Semi-bold button text */
+            background-color: #17a2b8; /* Changed to match the button style from login page */
+            border-color: #17a2b8;
+            color: white;
+        }
+
+        .form-inline .btn:hover {
+            background-color: #138496;
+            border-color: #117a8b;
+        }
+
+        .table-container {
+            overflow-x: auto; /* Ensure the table is scrollable on small screens */
+            text-align: center; /* Center the table within its container */
+        }
+
+        .table {
+            display: inline-table; /* Ensure the table is treated as an inline block */
+            margin: 0 auto; /* Center table horizontally */
+        }
+
+        .table th, .table td {
+            text-align: center;
+            vertical-align: middle;
+        }
+
+        .table th {
+            background-color: #17a2b8; /* Match header color with button */
+            color: #ffffff;
+            font-weight: 600; /* Semi-bold header text */
+        }
+
+        .table tbody tr:hover {
+            background-color: #e9ecef;
+        }
+
+        .table .btn {
+            border-radius: 0.25rem;
+        }
+
+        .table .btn-primary {
+            background-color: #17a2b8; /* Match button color */
+            border: none;
+        }
+
+        .table .btn-primary:hover {
+            background-color: #138496;
+        }
+
+        .avatar-img {
+            width: 80px; /* Increased size */
+            height: 80px; /* Increased size */
+            object-fit: cover;
+        }
+
+        .modal-dialog {
+            max-width: 800px;
+        }
+
+        .modal-header {
+            border-bottom: 1px solid #dee2e6;
+        }
+
+        .modal-footer {
+            border-top: 1px solid #dee2e6;
+        }
+
+        .btn-outline-success {
+            border-radius: 0.25rem;
+            font-weight: 500; /* Semi-bold button text */
+        }
+
+        .modal-body p.short-description {
+            max-height: 100px; /* Limit the height */
+            overflow: hidden;
+            text-overflow: ellipsis;
+            white-space: nowrap;
+        }
+
+        .modal-title,
+        .modal-body p,
+        .modal-footer a,
+        .modal-footer button {
+            color: #333;
+            font-size: 1rem; /* Default font size for general text */
+            font-weight: 400; /* Normal weight */
+            text-transform: none; /* Normal case */
+            letter-spacing: 0.5px; /* Letter spacing for readability */
+            line-height: 1.6; /* Line height for better readability */
+        }
+    </style>
 </head>
+
 <body>
 <div class="container mt-5">
-    <h2>User List</h2>
+    <h2 class="titleClass">Search</h2>
 
-    <form class="form-inline mb-3" th:method="GET" th:action="@{/search}">
+    <form class="form-inline mb-4" th:method="GET" th:action="@{/search}">
         <input class="form-control mr-sm-2" type="search" name="query" placeholder="Search by name or email" aria-label="Search"
                th:value="${query}">
         <select class="form-control mr-sm-2" name="category">
             <option value="" selected>Select Category</option>
             <option th:each="category : ${categories}" th:value="${category.id}" th:text="${category.category}"></option>
         </select>
-        <button class="btn btn-outline-success my-2 my-sm-0" type="submit">Search</button>
+        <button class="btn btn-primary my-2 my-sm-0" type="submit">Search</button>
     </form>
 
-    <table class="table table-bordered">
-        <thead>
-        <tr>
-            <th>ID</th>
-            <th>Full Name</th>
-            <th>Email</th>
-            <th>Profile</th>
-        </tr>
-        </thead>
-        <tbody>
-        <tr th:each="user : ${users}">
-            <td th:text="${user.id}">1</td>
-            <td th:text="${user.firstName + ' ' + user.lastName}">John Doe</td>
-            <td th:text="${user.email}">john.doe@example.com</td>
-            <td><a th:href="@{/profile/{id}(id=${user.id})}" class="btn btn-primary">View Profile</a></td>
-        </tr>
-        </tbody>
-    </table>
+    <div class="table-container">
+        <table class="table table-bordered table-striped table-responsive">
+            <thead>
+            <tr>
+                <th>Avatar</th>
+                <th>Company Name</th>
+                <th>Full Name</th>
+                <th>Profile</th>
+            </tr>
+            </thead>
+            <tbody>
+            <tr th:each="user : ${users}">
+                <td>
+                    <img th:src="${user.avatarImage != null ? user.avatarImage.filePath : '/images/defaultAvatar/defaultAvatarImage.png'}"
+                         alt="User Avatar" class="avatar-img rounded-circle">
+                </td>
+                <td th:text="${user.companyName}">Acme Corp</td>
+                <td th:text="${user.firstName + ' ' + user.lastName}">John Doe</td>
+                <td>
+                    <button type="button" class="btn btn-primary" data-toggle="modal" th:data-target="'#userModal' + ${user.id}">View Details</button>
+                </td>
+            </tr>
+            </tbody>
+        </table>
+    </div>
 </div>
+
+<!-- User Detail Modals -->
+<div th:each="user : ${users}">
+    <div class="modal fade" th:id="'userModal' + ${user.id}" tabindex="-1" role="dialog" aria-labelledby="userModalLabel" aria-hidden="true">
+        <div class="modal-dialog modal-dialog-centered" role="document">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title" th:text="${user.firstName + ' ' + user.lastName}">John Doe</h5>
+                    <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                        <span aria-hidden="true">&times;</span>
+                    </button>
+                </div>
+                <div class="modal-body text-center">
+                    <img th:src="${user.avatarImage != null ? user.avatarImage.filePath : '/images/defaultAvatar/defaultAvatarImage.png'}"
+                         alt="User Avatar" class="avatar-img rounded-circle mb-3">
+                    <p><strong>Company:</strong> <span th:text="${user.companyName}">Acme Corp</span></p>
+                    <p><strong>Description:</strong></p>
+                    <p class="short-description" th:text="${user.description}">Brief description of the user profile.</p>
+                </div>
+                <div class="modal-footer">
+                    <a th:href="@{/profile/{id}(id=${user.id})}" class="btn btn-primary">View Full Profile</a>
+                    <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
 <!-- Bootstrap JS and dependencies -->
 <script src="https://code.jquery.com/jquery-3.5.1.slim.min.js"></script>
 <script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.5.2/dist/umd/popper.min.js"></script>
 <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
 </body>
+
 </html>
