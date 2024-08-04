@@ -18,6 +18,8 @@ import softuni.bg.finalPJ.service.MessageService;
 import softuni.bg.finalPJ.service.UserService;
 
 import java.security.Principal;
+import java.text.SimpleDateFormat;
+import java.time.LocalDateTime;
 
 @Controller
 public class MessageController {
@@ -46,12 +48,17 @@ public class MessageController {
     public ModelAndView submitContactForm(@PathVariable Long id,
                                           @RequestParam String name,
                                           @RequestParam String email,
+                                          @RequestParam String phone,
                                           @RequestParam String message) {
 
         Message newMessage = new Message();
         newMessage.setSenderName(name);
         newMessage.setSenderEmail(email);
         newMessage.setContent(message);
+        newMessage.setSenderPhone(phone);
+
+        String formattedDate = messageService.formatDate(LocalDateTime.now());
+        newMessage.setFormattedDate(formattedDate);
 
         messageService.saveMessage(newMessage, id);
 

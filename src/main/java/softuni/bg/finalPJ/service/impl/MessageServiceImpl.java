@@ -10,7 +10,9 @@ import softuni.bg.finalPJ.repositories.MessageRepository;
 import softuni.bg.finalPJ.repositories.UserRepository;
 import softuni.bg.finalPJ.service.MessageService;
 
+import java.text.SimpleDateFormat;
 import java.time.LocalDateTime;
+import java.time.format.DateTimeFormatter;
 import java.util.List;
 
 @Service
@@ -28,10 +30,14 @@ public class MessageServiceImpl implements MessageService {
 
     @Override
     public void saveMessage(Message message, Long userId) {
+
         UserEntity receiver = userRepository.findById(userId)
                 .orElseThrow(() -> new UsernameNotFoundException("User not found"));
+        String formattedDate = formatDate(LocalDateTime.now());
+
+        message.setFormattedDate(formattedDate);
         message.setReceiver(receiver);
-        message.setDate(LocalDateTime.now());
+
         messageRepository.save(message);
     }
 
@@ -52,4 +58,12 @@ public class MessageServiceImpl implements MessageService {
         }
     }
 
+    @Override
+    public String formatDate(LocalDateTime localDateTime){
+
+        DateTimeFormatter formatter = DateTimeFormatter.ofPattern("MM/dd/yyyy HH:mm:ss");
+        String formattedDate = formatter.format(localDateTime);
+
+        return formattedDate;
+    }
 }

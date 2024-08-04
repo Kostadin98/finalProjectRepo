@@ -13,8 +13,9 @@ public class Message {
 
     private String senderName;
     private String senderEmail;
+    private String senderPhone;
     private String content;
-    private LocalDateTime date;
+    private String formattedDate;
 
     @ManyToOne
     @JoinColumn(name = "receiver_id")
@@ -46,6 +47,15 @@ public class Message {
         this.senderEmail = senderEmail;
     }
 
+    public String getSenderPhone() {
+        return senderPhone;
+    }
+
+    public Message setSenderPhone(String senderPhone) {
+        this.senderPhone = senderPhone;
+        return this;
+    }
+
     public String getContent() {
         return content;
     }
@@ -54,12 +64,13 @@ public class Message {
         this.content = content;
     }
 
-    public LocalDateTime getDate() {
-        return date;
+    public String getFormattedDate() {
+        return formattedDate;
     }
 
-    public void setDate(LocalDateTime date) {
-        this.date = date;
+    public Message setFormattedDate(String formattedDate) {
+        this.formattedDate = formattedDate;
+        return this;
     }
 
     public UserEntity getReceiver() {
