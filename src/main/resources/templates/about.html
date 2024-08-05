@@ -1,72 +1,153 @@
 <!DOCTYPE html>
-<html lang="en" xmlns:th="http://www.thymeleaf.org">
-
-<div>
-    <nav th:replace="~{fragments/navigation}"></nav>
-</div>
+<html xmlns:th="http://www.thymeleaf.org">
 
 <head>
+    <!-- Navigation Bar -->
+    <nav th:replace="~{fragments/navigation}"></nav>
+    <!-- Header -->
+    <div th:replace="~{fragments/header}"></div>
+
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>About Us</title>
-    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css">
+    <title th:text="#{about.page.title}">About Us</title>
+    <!-- Google Fonts -->
+    <link href="https://fonts.googleapis.com/css2?family=Lora:wght@400;700&display=swap" rel="stylesheet">
+    <!-- Bootstrap CSS -->
+    <link href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css" rel="stylesheet">
     <style>
-        .team-member {
-            margin-bottom: 30px;
+        body {
+            background: url('/images/themes/img.png') no-repeat center fixed;
+            background-size: cover;
+            font-family: 'Arial', sans-serif;
+            margin: 0;
+            padding: 0;
+            display: flex;
+            flex-direction: column;
+            min-height: 100vh;
         }
-        .team-member img {
-            border-radius: 50%;
-            margin-bottom: 15px;
+
+        h1 {
+            color: #fff; /* White text color for contrast against dark background */
+            text-shadow: 3px 3px 6px rgba(0, 0, 0, 0.7); /* Soft shadow for better readability */
+            font-size: 3rem; /* Large font size for emphasis */
+            font-weight: 700; /* Bold text */
+            letter-spacing: 2px; /* Spaced-out letters for a clean look */
+            text-transform: uppercase; /* Uppercase text for a bold statement */
+            background: linear-gradient(135deg, #007bff, #00d2ff); /* Gradient background for dynamic color effect */
+            -webkit-background-clip: text; /* Clips the gradient to the text */
+            background-clip: text; /* Clips the gradient to the text */
+            display: inline-block; /* Ensures the gradient effect only applies to the text */
+            position: relative; /* Allows positioning of pseudo-elements */
+            padding-bottom: 10px; /* Space below the text for underline effect */
+            margin: 1rem auto; /* Centers the heading and adds margin */
         }
-        .about-section {
-            padding: 60px 0;
+
+        .container {
+            background-color: rgba(255, 255, 255, 0.9);
+            padding: 2rem;
+            border-radius: 0.75rem;
+            box-shadow: 0 0.5rem 1rem rgba(0, 0, 0, 0.2);
+            max-width: 1200px;
+            margin: 2rem auto;
+            text-align: center;
         }
-        .about-section h2 {
-            margin-bottom: 30px;
+
+        .description {
+            font-size: 1.25rem;
+            color: #333;
+            margin-bottom: 5rem;
+            margin-left: 5rem;
+            margin-right: 5rem;
+            line-height: 1.8; /* Increases line height for better readability */
+            text-align: left; /* Aligns text to the left for a clean look */
+            display: flex;
+            flex-wrap: wrap;
+            justify-content: space-between;
+        }
+
+        .description p {
+            flex: 1;
+            margin-right: 2rem;
+        }
+
+        .description img {
+            max-width: 50%;
+            max-height: 600px;
+            margin-top: 5rem;
+            border-radius: 0.75rem;
+            box-shadow: 0 0.5rem 1rem rgba(0, 0, 0, 0.2);
+        }
+
+        .features {
+            margin-top: 2rem;
+            display: flex;
+            flex-wrap: wrap;
+            justify-content: center;
+        }
+
+        .feature {
+            background-color: #0066b2;
+            color: white;
+            padding: 1.5rem;
+            margin: 1rem;
+            border-radius: 0.5rem;
+            flex: 1 1 300px;
+            max-width: 300px;
+            box-shadow: 0 0.5rem 1rem rgba(0, 0, 0, 0.2);
+        }
+
+        .feature h3 {
+            font-size: 1.5rem;
+            font-weight: 600;
+            margin-bottom: 1rem; /* Adds space below the headings */
+        }
+
+        .feature p {
+            font-size: 1rem;
+            margin-top: 0.5rem;
+            line-height: 1.6; /* Increases line height for better readability */
         }
     </style>
 </head>
-<body
-<!-- About Section -->
-<section class="about-section text-center">
-    <div class="container">
-        <h2 class="text-uppercase">About Us</h2>
-        <p class="lead">We are a passionate team dedicated to providing the best service and solutions to our customers.</p>
-        <div class="row">
-            <div class="col-lg-4 col-sm-6 team-member">
-                <img src="https://via.placeholder.com/150" class="img-fluid" alt="Team Member 1">
-                <h5>John Doe</h5>
-                <p class="text-muted">CEO & Founder</p>
-            </div>
-            <div class="col-lg-4 col-sm-6 team-member">
-                <img src="https://via.placeholder.com/150" class="img-fluid" alt="Team Member 2">
-                <h5>Jane Smith</h5>
-                <p class="text-muted">Chief Technology Officer</p>
-            </div>
-            <div class="col-lg-4 col-sm-6 team-member">
-                <img src="https://via.placeholder.com/150" class="img-fluid" alt="Team Member 3">
-                <h5>Mike Johnson</h5>
-                <p class="text-muted">Head of Marketing</p>
-            </div>
+
+<body>
+<h1 th:text="#{about.page.header}">About Our Business Card App</h1>
+<div class="container">
+    <div class="description">
+        <p th:text="#{about.page.description}">Welcome to our Business Card App! We aim to revolutionize the way professionals share their contact information. Our app allows you to create, manage, and share your business cards with ease, ensuring you leave a lasting impression.
+            With our app, you can design stunning business cards using a variety of templates and customization options. Our user-friendly interface ensures that anyone can create a professional-looking card in minutes.
+            Beyond just creating cards, our app also helps you manage your contacts efficiently. Keep track of all your professional connections in one place, making it easy to stay organized and follow up with important contacts.
+            Sharing your business card has never been easier. Whether you prefer sharing via email, QR codes, or social media, our app supports multiple methods, ensuring you can connect with others in the way that suits you best.
+            We are committed to sustainability, which is why our app promotes the use of digital business cards. By reducing the need for paper cards, you are contributing to a greener planet while staying ahead in the digital age.</p>
+        <img src="/images/themes/aboutImg.jpg" th:alt="#{about.page.image.alt}" alt="Business Card App Image">
+    </div>
+    <div class="features">
+        <div class="feature">
+            <h3 th:text="#{about.feature.create.title}">Create Beautiful Cards</h3>
+            <p th:text="#{about.feature.create.description}">Design stunning business cards with our easy-to-use editor. Choose from a variety of templates and customize them to fit your brand.</p>
+        </div>
+        <div class="feature">
+            <h3 th:text="#{about.feature.manage.title}">Manage Contacts</h3>
+            <p th:text="#{about.feature.manage.description}">Keep track of all your professional connections in one place. Our app makes it easy to organize and access your contacts.</p>
+        </div>
+        <div class="feature">
+            <h3 th:text="#{about.feature.share.title}">Share Instantly</h3>
+            <p th:text="#{about.feature.share.description}">Share your business card with a tap. Our app supports sharing via email, QR codes, and social media, making networking seamless.</p>
+        </div>
+        <div class="feature">
+            <h3 th:text="#{about.feature.environment.title}">Environmentally Friendly</h3>
+            <p th:text="#{about.feature.environment.description}">Reduce paper waste by using digital business cards. Our app helps you contribute to a greener planet while staying connected.</p>
         </div>
     </div>
-</section>
-
-<!-- Footer -->
-<footer class="text-center py-4">
-    <div class="container">
-        <p class="mb-0">&copy; 2024 YourCompany. All Rights Reserved.</p>
-    </div>
-</footer>
-
-<!-- Scripts -->
-<script src="https://code.jquery.com/jquery-3.5.1.slim.min.js"></script>
-<script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.5.4/dist/umd/popper.min.js"></script>
-<script src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
-
-<div>
-    <nav th:replace="~{fragments/navigation}"></nav>
 </div>
 
+<!-- Include the footer -->
+<div th:replace="~{fragments/footer}"></div>
+
+<!-- Bootstrap JS and dependencies -->
+<script src="https://code.jquery.com/jquery-3.5.1.slim.min.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.5.2/dist/umd/popper.min.js"></script>
+<script src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
 </body>
+
 </html>

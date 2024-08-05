@@ -183,6 +183,12 @@
                 <div th:each="comment : ${comments}" class="comment">
                     <strong th:text="${comment.author}">Author</strong>
                     <p th:text="${comment.content}">Comment content goes here...</p>
+                    <form th:action="@{/profile/{id}/deleteComment(id=${user.id})}" method="post" style="display:inline;">
+                        <input type="hidden" name="commentId" th:value="${comment.id}"/>
+
+                        <button th:if="${isProfileOwner}" type="submit" class="btn btn-danger btn-sm">Delete</button>
+
+                    </form>
                 </div>
 
                 <!-- Comment Form -->
