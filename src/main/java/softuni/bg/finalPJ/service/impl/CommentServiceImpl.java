@@ -10,6 +10,7 @@ import softuni.bg.finalPJ.service.CommentService;
 
 
 import java.time.LocalDateTime;
+import java.time.format.DateTimeFormatter;
 import java.util.List;
 
 @Service
@@ -40,7 +41,7 @@ public class CommentServiceImpl implements CommentService {
         comment.setUser(user);
         comment.setAuthor(author);
         comment.setContent(content);
-        comment.setCreatedDate(LocalDateTime.now());
+        comment.setCreatedDate(formatDate(LocalDateTime.now()));
 
         commentRepository.save(comment);
     }
@@ -51,6 +52,15 @@ public class CommentServiceImpl implements CommentService {
                 .orElseThrow(() ->  new IllegalArgumentException("Comment not found"));
 
         return comment;
+    }
+
+    @Override
+    public String formatDate(LocalDateTime localDateTime) {
+
+        DateTimeFormatter formatter = DateTimeFormatter.ofPattern("MM/dd/yyyy HH:mm:ss");
+        String formattedDate = formatter.format(localDateTime);
+
+        return formattedDate;
     }
 
 

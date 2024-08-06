@@ -82,6 +82,22 @@ public class UserController {
         return modelAndView;
     }
 
+    @GetMapping("/profile/{id}/viewAsAnonymous")
+    public ModelAndView viewProfileAsAnonymous(@PathVariable("id") Long id) throws IOException, WriterException {
+        ModelAndView modelAndView = new ModelAndView("profile");
+
+        UserEntity user = userService.findById(id);
+
+
+        List<Comment> comments = commentService.getCommentsByUserId(user.getId());
+        modelAndView.addObject("comments", comments);
+        modelAndView.addObject("user", user);
+
+        // Set isProfileOwner to false for anonymous view
+        modelAndView.addObject("isProfileOwner", false);
+
+        return modelAndView;
+    }
 
     @GetMapping("/profile/{id}/gallery")
     public ModelAndView viewGallery(@PathVariable("id") Long id, Principal principal) {

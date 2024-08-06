@@ -15,7 +15,7 @@ public class Comment {
     private String content;
 
     @Column(nullable = false)
-    private LocalDateTime createdDate;
+    private String createdDate;
 
     @ManyToOne
     @JoinColumn(name = "user_id", nullable = false)
@@ -40,12 +40,13 @@ public class Comment {
         this.content = content;
     }
 
-    public LocalDateTime getCreatedDate() {
+    public String getCreatedDate() {
         return createdDate;
     }
 
-    public void setCreatedDate(LocalDateTime createdDate) {
+    public Comment setCreatedDate(String createdDate) {
         this.createdDate = createdDate;
+        return this;
     }
 
     public UserEntity getUser() {
