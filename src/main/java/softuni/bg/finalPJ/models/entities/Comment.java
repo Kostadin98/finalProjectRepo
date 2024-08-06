@@ -1,7 +1,6 @@
 package softuni.bg.finalPJ.models.entities;
 
 import jakarta.persistence.*;
-import org.springframework.security.core.userdetails.User;
 
 import java.time.LocalDateTime;
 

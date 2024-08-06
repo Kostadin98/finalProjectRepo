@@ -2,8 +2,6 @@ package softuni.bg.finalPJ.models.entities;
 
 import jakarta.persistence.*;
 
-import java.time.LocalDateTime;
-
 @Entity
 public class Message {
 

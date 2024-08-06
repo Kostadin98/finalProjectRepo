@@ -1,16 +1,17 @@
 package softuni.bg.finalPJ.service.impl;
 
+import org.modelmapper.ModelMapper;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.access.AccessDeniedException;
-import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.stereotype.Service;
+import softuni.bg.finalPJ.models.DTOs.MessageDTO;
 import softuni.bg.finalPJ.models.entities.Message;
 import softuni.bg.finalPJ.models.entities.UserEntity;
 import softuni.bg.finalPJ.repositories.MessageRepository;
-import softuni.bg.finalPJ.repositories.UserRepository;
 import softuni.bg.finalPJ.service.MessageService;
+import softuni.bg.finalPJ.service.UserService;
 
-import java.text.SimpleDateFormat;
+
 import java.time.LocalDateTime;
 import java.time.format.DateTimeFormatter;
 import java.util.List;
@@ -18,22 +19,24 @@ import java.util.List;
 @Service
 public class MessageServiceImpl implements MessageService {
 
-
     private final MessageRepository messageRepository;
-    private final UserRepository userRepository;
+    private final UserService userService;
+    private final ModelMapper modelMapper;
 
     @Autowired
-    public MessageServiceImpl(MessageRepository messageRepository, UserRepository userRepository) {
+    public MessageServiceImpl(MessageRepository messageRepository, UserService userService, ModelMapper modelMapper) {
         this.messageRepository = messageRepository;
-        this.userRepository = userRepository;
+        this.userService = userService;
+        this.modelMapper = modelMapper;
     }
 
     @Override
-    public void saveMessage(Message message, Long userId) {
+    public void saveMessage(MessageDTO messageDTO, Long userId) {
 
-        UserEntity receiver = userRepository.findById(userId)
-                .orElseThrow(() -> new UsernameNotFoundException("User not found"));
+        UserEntity receiver = userService.findById(userId);
         String formattedDate = formatDate(LocalDateTime.now());
+
+        Message message = this.modelMapper.map(messageDTO, Message.class);
 
         message.setFormattedDate(formattedDate);
         message.setReceiver(receiver);
@@ -43,8 +46,7 @@ public class MessageServiceImpl implements MessageService {
 
     @Override
     public List<Message> getMessagesForUser(Long userId) {
-        UserEntity receiver = userRepository.findById(userId)
-                .orElseThrow(() -> new UsernameNotFoundException("User not found"));
+        UserEntity receiver = userService.findById(userId);
         return messageRepository.findByReceiver(receiver);
     }
 

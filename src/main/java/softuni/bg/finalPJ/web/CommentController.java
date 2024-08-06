@@ -4,7 +4,6 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.servlet.ModelAndView;
-import softuni.bg.finalPJ.models.DTOs.CommentDTO;
 import softuni.bg.finalPJ.models.entities.UserEntity;
 import softuni.bg.finalPJ.service.CommentService;
 import softuni.bg.finalPJ.service.UserService;
@@ -21,15 +20,14 @@ public class CommentController {
     @Autowired
     public CommentController(UserService userService, CommentService commentService) {
         this.userService = userService;
-
         this.commentService = commentService;
     }
 
 
     @PostMapping("profile/{id}/addComment")
     public ModelAndView addComment(@PathVariable Long id,
+                                   @RequestParam String content,
                                    @RequestParam(required = false) String author,
-                                   CommentDTO commentDTO,
                                    Principal principal) {
 
         UserEntity profileOwner = userService.findById(id);
@@ -48,9 +46,9 @@ public class CommentController {
             author = "Anonymous";
         }
 
-        commentDTO.setAuthor(author);
-        commentDTO.setUser(profileOwner);
-        commentService.addComment(commentDTO);
+
+        commentService.addComment(profileOwner, author, content);
+
 
         return new ModelAndView("redirect:/profile/" + id);
     }

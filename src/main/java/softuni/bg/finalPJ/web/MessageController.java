@@ -4,22 +4,19 @@ package softuni.bg.finalPJ.web;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.access.AccessDeniedException;
 import org.springframework.security.access.annotation.Secured;
-import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.servlet.ModelAndView;
-import softuni.bg.finalPJ.models.entities.Message;
+import softuni.bg.finalPJ.models.DTOs.MessageDTO;
 import softuni.bg.finalPJ.models.entities.UserEntity;
-import softuni.bg.finalPJ.repositories.UserRepository;
 import softuni.bg.finalPJ.service.MessageService;
 import softuni.bg.finalPJ.service.UserService;
 
 import java.security.Principal;
-import java.text.SimpleDateFormat;
-import java.time.LocalDateTime;
+
 
 @Controller
 public class MessageController {
@@ -46,21 +43,10 @@ public class MessageController {
 
     @PostMapping("/profile/{id}/submitContactForm")
     public ModelAndView submitContactForm(@PathVariable Long id,
-                                          @RequestParam String name,
-                                          @RequestParam String email,
-                                          @RequestParam String phone,
-                                          @RequestParam String message) {
+                                          MessageDTO messageDTO) {
 
-        Message newMessage = new Message();
-        newMessage.setSenderName(name);
-        newMessage.setSenderEmail(email);
-        newMessage.setContent(message);
-        newMessage.setSenderPhone(phone);
 
-        String formattedDate = messageService.formatDate(LocalDateTime.now());
-        newMessage.setFormattedDate(formattedDate);
-
-        messageService.saveMessage(newMessage, id);
+        messageService.saveMessage(messageDTO, id);
 
         ModelAndView modelAndView = new ModelAndView("redirect:/profile/" + id);
         return modelAndView;

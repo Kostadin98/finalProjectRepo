@@ -1,29 +1,25 @@
 package softuni.bg.finalPJ.service.impl;
 
-import org.hibernate.annotations.NotFound;
-import org.modelmapper.ModelMapper;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
-import softuni.bg.finalPJ.models.DTOs.CommentDTO;
 import softuni.bg.finalPJ.models.entities.Comment;
 import softuni.bg.finalPJ.models.entities.UserEntity;
 import softuni.bg.finalPJ.repositories.CommentRepository;
 import softuni.bg.finalPJ.service.CommentService;
 
+
 import java.time.LocalDateTime;
 import java.util.List;
-import java.util.Optional;
 
 @Service
 public class CommentServiceImpl implements CommentService {
 
     private final CommentRepository commentRepository;
-    private final ModelMapper modelMapper;
 
     @Autowired
-    public CommentServiceImpl(CommentRepository commentRepository, ModelMapper modelMapper) {
+    public CommentServiceImpl(CommentRepository commentRepository) {
         this.commentRepository = commentRepository;
-        this.modelMapper = modelMapper;
     }
 
     @Override
@@ -38,11 +34,14 @@ public class CommentServiceImpl implements CommentService {
     }
 
     @Override
-    public void addComment(CommentDTO commentDTO) {
+    public void addComment(UserEntity user, String author, String content) {
 
-        commentDTO.setCreatedDate(LocalDateTime.now());
+        Comment comment = new Comment();
+        comment.setUser(user);
+        comment.setAuthor(author);
+        comment.setContent(content);
+        comment.setCreatedDate(LocalDateTime.now());
 
-        Comment comment = this.modelMapper.map(commentDTO, Comment.class);
         commentRepository.save(comment);
     }
 
