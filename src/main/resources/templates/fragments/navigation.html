@@ -8,7 +8,7 @@
     <!-- Custom CSS -->
     <style>
         .navbar {
-            background-color: #0070BB !important;
+            background-color: #0066b2 !important;
         }
         .navbar-brand, .nav-link {
             color: #fff !important;
@@ -19,12 +19,26 @@
         .container {
             margin-top: 20px;
         }
+        .logged-user{
+        color: #fff;
+        }
+        .custom-container .custom-logout-btn{
+        color: #fff;
+        }
+        .custom-container .custom-logout-btn:hover{
+        color: #ffcc00;
+        text-decoration: none;
+        }
+        .logo-ico{
+        max-height: 30px;
+        max-width: 30px;
+        }
     </style>
 </head>
 <body>
 <!-- Navigation Bar -->
 <nav class="navbar navbar-expand-lg">
-    <a class="navbar-brand" href="#">MyMvcProject</a>
+    <a class="navbar-brand" th:href="@{/}"> <img class="logo-ico" src="/images/themes/blogger-3-xl.ico" > </a>
     <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarNav"
             aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation">
         <span class="navbar-toggler-icon"></span>

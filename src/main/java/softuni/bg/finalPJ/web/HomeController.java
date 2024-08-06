@@ -1,7 +1,10 @@
 package softuni.bg.finalPJ.web;
 
+import org.springframework.security.core.annotation.AuthenticationPrincipal;
+import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.servlet.ModelAndView;
 import softuni.bg.finalPJ.models.entities.UserEntity;
@@ -51,9 +54,13 @@ public class HomeController {
     }
 
     @GetMapping("/home")
-    public ModelAndView home(){
+    public ModelAndView home(@AuthenticationPrincipal UserDetails userDetails) {
+        UserEntity user = userService.findUserByEmail(userDetails.getUsername());
 
-        return new ModelAndView("home");
+        ModelAndView modelAndView = new ModelAndView("home");
+        modelAndView.addObject("user", user);
+
+        return modelAndView;
     }
 
     @GetMapping("/about")

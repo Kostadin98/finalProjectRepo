@@ -1,103 +1,100 @@
 <!DOCTYPE html>
-<html lang="en">
-
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>Footer</title>
-  <link href="https://stackpath.bootstrapcdn.com/bootstrap/5.1.3/css/bootstrap.min.css" rel="stylesheet">
-  <link href="https://cdn.jsdelivr.net/npm/bootstrap-icons/font/bootstrap-icons.css" rel="stylesheet">
+  <!-- Bootstrap CSS -->
+  <link href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css" rel="stylesheet">
+  <!-- Font Awesome CSS -->
+  <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.3/css/all.min.css" rel="stylesheet">
   <style>
     .footer {
-        background-color: #0070BB;
-        color: white;
-        padding: 0.75rem 0; /* Reduced padding for a smaller height */
-        position: relative;
-        width: 100%;
-        font-size: 0.875rem; /* Slightly smaller font size */
+        background-color: #0066b2; /* Change footer background color */
+        color: #ffffff; /* Ensure all text is white */
+        padding: 0.5rem 0;
     }
-
-    .footer-container {
-        max-width: 1200px;
-        margin: 0 auto; /* Center the container */
-    }
-
-    .footer h4 {
-        font-size: 1.25rem; /* Slightly smaller font size */
-        font-weight: 600;
-        margin-bottom: 0.5rem; /* Reduced margin */
-    }
-
-    .footer p,
-    .footer a {
-        font-size: 0.875rem; /* Slightly smaller font size */
-        margin-bottom: 0.2rem;
-        color: white;
+    .footer .footer-links a {
+        color: #ffffff; /* Ensure links are white */
         text-decoration: none;
+        transition: color 0.3s ease;
     }
-
-    .footer a:hover {
-        text-decoration: underline;
+    .footer .footer-links a:hover {
+        color: #ffffff; /* Keep hover color white */
     }
-
-    .footer .social-icons {
-        margin-top: 0.5rem; /* Reduced margin for smaller height */
-    }
-
     .footer .social-icons a {
-        font-size: 20px; /* Slightly smaller icon size */
-        margin: 0 8px; /* Reduced margin */
-        color: white;
+        color: #ffffff; /* Ensure social icons are white */
+        margin: 0 0.5rem;
+        font-size: 1.5rem;
+        transition: color 0.3s ease;
     }
-
     .footer .social-icons a:hover {
-        color: #00d2ff;
+        color: #ffffff; /* Keep hover color white */
     }
-
-    .footer hr {
-        border-top: 1px solid rgba(255, 255, 255, 0.2);
-        margin: 1rem 0; /* Reduced margin */
+    .footer .footer-section {
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        justify-content: center;
+        text-align: center;
+        margin-bottom: 1rem;
     }
-
-    .footer .container {
-        max-width: 1200px;
+    @media (min-width: 768px) {
+        .footer .footer-section {
+            text-align: left;
+            align-items: flex-start;
+            margin-bottom: 0;
+        }
+        .footer .footer-links {
+            padding-left: 2rem; /* Move Quick Links section to the right */
+        }
+        .footer p{
+        color: #fff;
+        }
     }
   </style>
 </head>
-
 <body>
-<!-- Footer -->
-<footer class="footer text-center">
-  <div class="footer-container">
+<footer class="footer">
+  <div class="container">
     <div class="row">
-      <div class="col-md-6 mb-3 mb-md-0">
-        <h4>About Us</h4>
-        <p>Our Webapp is dedicated to providing you with the best service and experience. Learn more about
-          our story, meet our team, or explore career opportunities with us.</p>
+      <!-- Footer Navigation Links -->
+      <div class="col-md-4 footer-section footer-links">
+        <h5>Quick Links</h5>
+        <ul class="list-unstyled">
+          <li><a th:href="@{/}">Home</a></li>
+          <li><a th:href="@{/about}">About</a></li>
+        </ul>
       </div>
-      <div class="col-md-6">
-        <h4>Contact Us</h4>
+      <!-- Social Media Links -->
+      <div class="col-md-4 footer-section">
+        <h5>Follow Us</h5>
+        <div class="social-icons">
+          <a href="www.facebook.com"><i class="fab fa-facebook-f"></i></a>
+          <a href="#"><i class="fab fa-twitter"></i></a>
+          <a href="#"><i class="fab fa-instagram"></i></a>
+          <a href="https://bg.linkedin.com/"><i class="fab fa-linkedin-in"></i></a>
+        </div>
+      </div>
+      <!-- Contact Information -->
+      <div class="col-md-4 footer-section">
+        <h5>Contact Us</h5>
         <p>
-          123 Street Name<br>
-          City, State, 12345<br>
-          Email: <a href="mailto:info@yourwebapp.com">info@yourwebapp.com</a><br>
-          Phone: (123) 456-7890
+          <i class="fas fa-map-marker-alt"></i> 1234 Street Name, City, Country <br>
+          <i class="fas fa-phone"></i> +1 234 567 890 <br>
+          <i class="fas fa-envelope"></i> email@example.com
         </p>
       </div>
     </div>
-    <hr class="my-4">
-    <div class="social-icons">
-      <a href="#"><i class="bi bi-facebook"></i></a>
-      <a href="#"><i class="bi bi-twitter"></i></a>
-      <a href="#"><i class="bi bi-instagram"></i></a>
-      <a href="#"><i class="bi bi-linkedin"></i></a>
+    <div class="text-center mt-3">
+      <p>&copy; 2024 Your Company. All Rights Reserved.</p>
     </div>
-    <p class="mb-0 mt-2">&copy; 2024 Your Webapp. All rights reserved.</p> <!-- Reduced margin -->
   </div>
 </footer>
 
-<script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
-<script src="https://stackpath.bootstrapcdn.com/bootstrap/5.1.3/js/bootstrap.bundle.min.js"></script>
+<!-- Bootstrap JS and dependencies -->
+<script src="https://code.jquery.com/jquery-3.5.1.slim.min.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.5.3/dist/umd/popper.min.js"></script>
+<script src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
 </body>
-
 </html>
