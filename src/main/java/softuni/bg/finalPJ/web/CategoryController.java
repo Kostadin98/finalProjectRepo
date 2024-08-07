@@ -51,7 +51,6 @@ public class CategoryController {
             throw new SecurityException("You cannot modify another user's categories");
         }
 
-        // Add the category to the user's list
         Category category = categoryService.findById(categoryId);
         user.getCategories().add(category);
         userService.save(user);
@@ -71,7 +70,6 @@ public class CategoryController {
 
         Category category = categoryService.findById(categoryId);
 
-        // Remove the category from the user's list
         user.getCategories().remove(category);
         userService.save(user);
 

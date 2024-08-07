@@ -8,7 +8,6 @@ import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.servlet.ModelAndView;
 import softuni.bg.finalPJ.models.entities.UserEntity;
-import softuni.bg.finalPJ.repositories.UserRepository;
 import softuni.bg.finalPJ.service.UserService;
 
 @Controller

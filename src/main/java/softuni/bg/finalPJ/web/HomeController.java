@@ -41,7 +41,7 @@ public class HomeController {
         modelAndView.addObject("users", users);
         modelAndView.addObject("query", query);
         modelAndView.addObject("categoryId", categoryId);
-        modelAndView.addObject("categories", categoryService.findAll()); // Assuming you have a category service
+        modelAndView.addObject("categories", categoryService.findAll());
         return modelAndView;
     }
 

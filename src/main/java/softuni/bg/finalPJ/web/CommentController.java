@@ -34,7 +34,6 @@ public class CommentController {
         UserEntity currentUser = principal != null ? userService.findUserByEmail(principal.getName()) : null;
 
         if (currentUser != null && currentUser.getId().equals(id)) {
-            // Prevent user from commenting on their own profile
             ModelAndView modelAndView = new ModelAndView("redirect:/profile/" + id);
             modelAndView.addObject("error", "CannotCommentOnOwnProfile");
             return modelAndView;

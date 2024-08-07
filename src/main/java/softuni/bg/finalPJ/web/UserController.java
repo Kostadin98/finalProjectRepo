@@ -93,7 +93,6 @@ public class UserController {
         modelAndView.addObject("comments", comments);
         modelAndView.addObject("user", user);
 
-        // Set isProfileOwner to false for anonymous view
         modelAndView.addObject("isProfileOwner", false);
 
         return modelAndView;
@@ -120,14 +119,14 @@ public class UserController {
 
         UserEntity user = userService.findById(id);
         if (user == null || !user.getEmail().equals(principal.getName())) {
-            return new ModelAndView("error/403"); // Access Denied or User Not Found
+            return new ModelAndView("error/403");
         }
 
         try {
             imageService.saveImage(file, id);
         } catch (IOException e) {
             e.printStackTrace();
-            return new ModelAndView("error/500"); // Internal Server Error
+            return new ModelAndView("error/500");
         }
 
         return new ModelAndView("redirect:/profile/" + id + "/gallery");
@@ -140,14 +139,14 @@ public class UserController {
 
         UserEntity user = userService.findById(id);
         if (user == null || !user.getEmail().equals(principal.getName())) {
-            return new ModelAndView("error/403"); // Access Denied or User Not Found
+            return new ModelAndView("error/403");
         }
 
         try {
             imageService.saveAvatarImage(file, id);
         } catch (IOException e) {
             e.printStackTrace();
-            return new ModelAndView("error/500"); // Internal Server Error
+            return new ModelAndView("error/500");
         }
 
         return new ModelAndView("redirect:/profile/" + id);
