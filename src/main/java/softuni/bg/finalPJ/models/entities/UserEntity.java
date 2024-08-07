@@ -26,7 +26,7 @@ public class UserEntity {
     @Column(nullable = false)
     private String password;
 
-    @Column(name = "description", columnDefinition = "TEXT")
+    @Column(name = "description", columnDefinition = "LONGVARCHAR")
     private String description;
 
     @Column(name = "company_name", nullable = false)

@@ -35,13 +35,6 @@ logging:
     org.hibernate.orm.jdbc.bind: TRACE
 
 
-google.recaptcha:
-  site: ${RECAPTCHA_SITE_KEY}
-  secret: ${RECAPTCHA_SITE_SECRET}
-
-
-
-
              #Good practice
 #file:
 #  upload:

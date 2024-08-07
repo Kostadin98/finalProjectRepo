@@ -1,7 +1,5 @@
 package softuni.bg.finalPJ.models.DTOs;
 
-
-import jakarta.annotation.Nullable;
 import jakarta.validation.constraints.Email;
 
 import jakarta.validation.constraints.NotBlank;
